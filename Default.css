@@ -1,0 +1,158 @@
+﻿/* Apply to the whole page */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    background-color: #000; /* Fallback color */
+    background-image: url('1bgimg.jpg'); /* Set background image */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Ensure no repeating */
+    background-size: cover; /* Ensure full image without cropping */
+}
+
+/* Login container */
+.login-container {
+    width: 100%;
+    max-width: 450px; /* Maximum width for the container */
+    background-color: rgba(0, 0, 0, 0.6); /* Faded black background */
+    padding: 5px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: #fff;
+    box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden; /* Prevent content from overflowing */
+}
+
+/* Form group for inputs */
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* Transparent input field style */
+.transparent-input {
+    width: 100%;
+    max-width: 100%; /* Ensure inputs do not overflow */
+    padding: 10px;
+    background-color: #f0f8ff; /* Light blue background */
+    border: 1px solid #ADD8E6; /* Light blue border */
+    color: #333; /* Dark text color */
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+.transparent-input::placeholder {
+    color: grey; /* Light blue shade for the placeholder */
+}
+
+/* Style for the show password checkbox */
+.show-password {
+    text-align: center;
+}
+
+/* Style for the login button */
+.login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #fff; /* White background */
+    border: 2px solid brown; /* Brown border */
+    color: black; 
+    font-size: 16px;
+    border-radius: 25px; /* Rounded border */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Style for the button hover effect */
+.login-button:hover {
+    background-color: #007bff; /* Blue background on hover */
+    color: white; /* White text on hover */
+    border-color: #0056b3; /* Darker blue border on hover */
+}
+
+/* Header style */
+.login-header h1 {
+    text-align: center; /* Center the header text */
+    font-size: 28px;
+    margin-bottom: 20px;
+    /*margin: 0 auto;*/ /* Ensure it is centered */
+    width: 100%; /* Optional: Ensures the header takes up full width */
+}
+
+
+/* Responsive styling for small screens */
+@media (max-width: 768px) {
+    .login-container {
+        width: 90%;
+        padding: 30px;
+    }
+
+    .login-header h1 {
+        font-size: 24px; /* Adjust header size */
+    }
+
+    .transparent-input {
+        font-size: 15px; /* Smaller font size */
+    }
+
+    .login-button {
+        font-size: 15px; /* Smaller button text */
+    }
+}
+
+/* For extra small screens (e.g., mobile phones) */
+@media screen and (max-width: 480px) {
+    .login-container {
+        width: 90%;
+        padding: 25px;
+    }
+
+    .login-header h1 {
+        font-size: 20px; /* Adjust header size */
+    }
+
+    .transparent-input {
+        font-size: 14px; /* Smaller font size */
+    }
+
+    .login-button {
+        font-size: 14px; /* Smaller button text */
+    }
+}
+/* Adjust logo and heading layout */
+/* Perfect alignment for logo and company name */
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-top: 5px;
+}
+
+/* Logo image sizing and alignment */
+.logo-container img {
+    height: 95px;
+    width: auto;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+/* Company name alignment */
+.company-name {
+    font-size: 26px;
+    color: white;
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+

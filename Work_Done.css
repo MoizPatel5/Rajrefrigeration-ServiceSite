@@ -1,0 +1,392 @@
+﻿/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F8F1E7; /* Light background color */
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 100%; /* Centering the container */
+    margin: auto;
+    background: white; /* White background for content */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px; /* Padding around the container */
+    overflow:auto;
+    background-color:#F8F1E7;
+}
+
+/* Header Styles */
+h1 {
+    color: #333; /* Dark text color */
+    text-align: center;
+}
+
+/* Button Styles */
+.download-button, .search-button, .apply-filter-btn {
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px 15px; /* Padding */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.download-button:hover, .search-button:hover, .apply-filter-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Filter Section Styles */
+/*.filter-section {
+    background-color: #e9ecef; 
+    padding: 15px; 
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.filter-options {
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 15px; 
+}
+
+.filter-row {
+    flex: 1; 
+    min-width: 200px;
+}*/
+ body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #F8F1E7;
+    }
+ /* General Styling */
+.filter-section {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.filter-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.filter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filter-label {
+    font-size: 16px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.filter-subsection {
+    margin-top: 10px;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-sub-label {
+    font-size: 14px;
+    color: #777;
+}
+
+.date-picker, .filter-dropdown {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 250px;
+}
+
+.btn.apply-filter-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn.apply-filter-btn:hover {
+    background-color: #0056b3;
+}
+
+.filter-row i {
+    color: #007bff;
+    font-size: 18px;
+}
+.btn-group .link-btn {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ensure the image inside looks good */
+.btn-group .link-btn img {
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+/* Hover effect for the icon */
+.btn-group .link-btn:hover img {
+    transform: scale(1.2);
+    filter: brightness(0.8);
+}
+/* Search Container Styles */
+
+.search-dropdown {
+    margin-right: 10px; /* Space between dropdown and input */
+}
+
+/* GridView Styles */
+.gridview {
+    width: 100%; /* Full width */
+    border-collapse: collapse; /* Collapse borders */
+    margin-top: 20px; /* Space above the grid */
+    
+}
+
+.gridview th, .gridview td {
+    padding: 10px; /* Padding inside cells */
+    border: 1px solid #ddd; /* Light gray border */
+    text-align: left; /* Left align text */
+    
+}
+
+.gridview th {
+    background-color: #007bff; /* Blue background for header */
+    color: white; /* White text for header */
+}
+
+/* No More Complaints Message */
+.no-more-complaints {
+    text-align: center; /* Center the message */
+    font-size: 1.2em; /* Larger font size */
+    color: #999; /* Gray color */
+    margin-top: 20px; /* Space above message */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .filter-options {
+        flex-direction: column; /* Stack filters vertically on smaller screens */
+    }
+
+    .search-container {
+        flex-direction: column; /* Stack search elements vertically */
+        align-items: stretch; /* Stretch search elements */
+    }
+
+    .search-dropdown {
+        margin-right: 0; /* Remove margin on smaller screens */
+        margin-bottom: 10px; /* Space below dropdown */
+    }
+}
+
+/* Date Filter Section Styles */
+.date-filter {
+    display: flex; /* Flex layout for the date inputs */
+    gap: 15px; /* Space between inputs */
+    margin-top: 10px; /* Space above the date filter */
+}
+
+.date-input-group {
+    display: flex; /* Flex layout for label and input */
+    flex-direction: column; /* Stack label above input */
+    flex: 1; /* Allow equal growth */
+}
+
+.filter-label {
+    display: flex; /* Flex layout for label */
+    align-items: center; /* Center vertically */
+    font-size: 1.1em; /* Slightly larger font */
+    color: #333; /* Dark text color */
+}
+
+.filter-checkbox {
+    margin-right: 8px; /* Space between checkbox and label */
+    cursor: pointer; /* Pointer cursor on checkbox */
+}
+
+.date-picker {
+    padding: 10px; /* Padding inside date input */
+    border: 1px solid #ddd; /* Light gray border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 1em; /* Font size */
+    width: 100%; /* Full width */
+    transition: border-color 0.3s ease; /* Transition for border color */
+}
+
+.date-picker:focus {
+    border-color: #007bff; /* Blue border on focus */
+    outline: none; /* Remove default outline */
+}
+.search-container {
+    float: right;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+.search-container2 {
+    float: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+/* Style for the dropdown */
+.search-dropdown {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+/* Style for the search input */
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+}
+
+/* Style for the search button */
+.search-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    
+    /* Instead of display: none, use visibility */
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.popup-container.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup-box {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    text-align: center;
+}
+
+
+.popup-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+}
+
+.label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    float:left;
+}
+
+.textbox {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popup-buttons {
+    margin-top: 15px;
+}
+
+.btn {
+    background: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #0056b3;
+}
+
+.btn-close {
+    background: #dc3545;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-close:hover {
+    background: #c82333;
+}

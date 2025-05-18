@@ -1,0 +1,446 @@
+﻿body{
+    background-color:#F8F1E7;
+}
+/* Basic styling for the sidebar */
+.sidebar {
+    width: 19%;
+    height: 100vh;
+    background-color: #333;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 20px;
+    color: white;
+    z-index:100;
+}
+
+.sidebar h3 {
+    color: #fff;
+}
+
+/* Dropdown styling */
+.dropdown {
+    margin-top: 20px;
+    background-color: #444;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    color: white;
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #555;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.dropdown-content .button {
+    display: block;
+    background-color: #666;
+    color: white;
+    padding: 10px;
+    margin-top: 5px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-content button:hover {
+    background-color: #777;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 250px;
+    background-color: #8b6248;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    /*z-index: 100;*/
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+.logout-button {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.logout-button:hover {
+    background-color: #ff0000;
+}
+
+.search-container {
+    float: right;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+
+/* Style for the dropdown */
+.search-dropdown {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+/* Style for the search input */
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+}
+.main-content {
+   margin-left:19%;
+    padding: 20px;
+    width:79%;
+}
+
+/* Rest of the styles for the worker form and responsiveness */
+.worker-form-container {
+    width: 600px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.worker-form-container1 {
+    width: 950px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    text-align: center;
+}
+
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    font-size: 16px;
+    color: #555;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+.drpdealer {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.drpdealer:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.submit-btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+/* General Styles */
+.complaints-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f8f9fa; /* Light background for contrast */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    overflow-x: auto; /* Allow horizontal scrolling if necessary */
+}
+
+/* Title Styles */
+.complaints-title {
+    text-align: center;
+    font-size: 2em;
+    color: #343a40; /* Dark text for better visibility */
+    margin-bottom: 20px; /* Spacing below the title */
+}
+
+
+.logout-button {
+    background-color: #dc3545; /* Red background for logout button */
+    color: white; /* White text color */
+}
+
+.logout-button:hover {
+    background-color: #c62828; /* Darker red on hover */
+}
+/* Smaller devices styles */
+@media (max-width: 480px) {
+    .complaints-title {
+        font-size: 1.2em; /* Even smaller title for very small screens */
+    }
+
+    .gridview {
+        font-size: 0.8em; /* Smaller font size for very small screens */
+    }
+}
+
+/* Responsive Design */
+@media only screen and (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .worker-form-container {
+        width: 90%;
+    }
+
+    .form-group label {
+        font-size: 14px;
+    }
+
+    .form-group input[type="text"] {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .submit-btn {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}
+
+
+/* Responsive Design */
+@media only screen and (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .dropdown {
+        width: 100%;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+
+    .dropdown-content button {
+        font-size: 14px;
+        padding: 8px;
+    }
+}
+.date-label {
+    font-weight: 600;
+    color: #495057;
+  }
+
+  .date-input {
+    padding: 8px 12px;
+    border: 2px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: white;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .date-input:focus {
+    outline: none;
+    border-color: #4dabf7;
+    box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.2);
+  }
+
+  .success-message {
+    color: #2b8a3e;
+    background: #d3f9d8;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    display: block;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .delete-btn {
+    background: #e03131;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .delete-btn:hover {
+    background: #c92a2a;
+  }
+
+  .delete-btn:active {
+    transform: translateY(1px);
+  }
+  /* Container Styling */
+.update-container {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Label for messages */
+.message-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #e74c3c;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Labels */
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Textbox and Dropdown */
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+/* Update Button */
+.update-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.update-btn:hover {
+    background-color: #45a049;
+}
+
+/* Delete Button */
+.delete-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .update-container {
+        padding: 15px;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

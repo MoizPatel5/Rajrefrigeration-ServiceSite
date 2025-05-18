@@ -1,0 +1,473 @@
+﻿/* Base styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F8F1E7;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation buttons */
+.nav-buttons {
+    margin-bottom: 20px;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.nav-buttons a {
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    background-color: #007bff;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 150px;
+    max-width: 200px;
+    text-align: center;
+}
+
+.nav-buttons a:hover {
+    background-color: #0056b3;
+}
+
+/* Content area */
+.content {
+    margin-top: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 20px;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+}
+/*th{
+    background-color:#f8f9fa;
+}*/
+/* Table styles for desktop */
+@media screen and (min-width: 769px) {
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-top: 1px solid #dee2e6;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    th {
+    color: black;
+    text-align: center;
+    vertical-align: middle;
+
+}
+
+    td {
+        background-color: #f8f9fa;
+    }
+}
+
+
+/*
+@media screen and (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    table {
+        border: none;
+    }
+
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        background-color: #fff;
+    }
+
+    td {
+        position: relative;
+        padding: 12px 12px 12px 50%;
+        border: none;
+        border-bottom: 1px solid #eee;
+        min-height: 30px;
+    }
+
+    td:last-child {
+        border-bottom: none;
+    }
+
+    td:before {
+        position: absolute;
+        left: 12px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+        color: #28a745;
+    }
+
+   
+    td:nth-of-type(1):before { content: "Call ID"; }
+    td:nth-of-type(2):before { content: "Date"; }
+    td:nth-of-type(3):before { content: "Name"; }
+    td:nth-of-type(4):before { content: "Contact"; }
+    td:nth-of-type(5):before { content: "Address"; }
+    td:nth-of-type(6):before { content: "Product"; }
+    td:nth-of-type(7):before { content: "Company"; }
+    td:nth-of-type(8):before { content: "Warranty"; }
+    td:nth-of-type(9):before { content: "Problem"; }
+
+    
+    td input[type="text"],
+    td input[type="number"],
+    td input[type="date"],
+    td textarea,
+    td select {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    
+    .GridView td:before {
+        content: attr(data-label);
+    }
+}*/
+
+/* Form elements */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea,
+select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+/* Buttons */
+.button {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px;
+}
+.subbtn{
+    width:100%;
+}
+
+.button:hover {
+    background-color: #218838;
+}
+
+.logout-button {
+    float: right;
+    background-color: #ffffff;
+    color: #8b6248;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.logout-button:hover {
+    background-color: #d2b48c;
+    color:#ffffff;
+}
+
+/* Mobile-specific button styles */
+@media screen and (max-width: 768px) {
+    .button,
+    .logout-button {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 16px;
+        margin: 5px 0;
+    }
+
+    .logout-button {
+        float: none;
+    }
+}
+
+/* Print styles */
+@media print {
+    .nav-buttons,
+    .button,
+    .logout-button {
+        display: none;
+    }
+
+    .container {
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    table {
+        page-break-inside: avoid;
+    }
+}
+/* Container for the radio button list */
+.custom-radio-button-list {
+    display: flex;
+    justify-content: center; /* Align horizontally */
+    align-items: center; /* Vertically align in the center */
+    gap: 15px; /* Space between buttons */
+    padding: 10px;
+    list-style: none;
+    margin: 0;
+}
+
+/* Styling individual radio buttons */
+.custom-radio-button-list input[type="radio"] {
+    display: none; /* Hide default radio buttons */
+}
+
+/* Styling the labels */
+.custom-radio-button-list label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f4d6b8; /* Light background */
+    color: #8b6248; /* Text color */
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    text-align: center;
+    min-width: 150px; /* Ensures consistent size */
+}
+
+/* Change background and border color on hover */
+.custom-radio-button-list label:hover {
+    background-color: #8b6248; /* Darker background */
+    color: #ffffff; /* White text color */
+    border-color: #f4d6b8;
+}
+
+/* Styling the selected radio button */
+.custom-radio-button-list input[type="radio"]:checked + label {
+    background-color: #8b6248; /* Active state background */
+    color: #ffffff; /* White text color */
+    border: 2px solid #f4d6b8; /* Highlight border for active item */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .custom-radio-button-list {
+        flex-wrap: wrap; /* Wrap buttons if they don't fit */
+        gap: 10px;
+    }
+
+    .custom-radio-button-list label {
+        min-width: 100px; /* Reduce size for smaller screens */
+    }
+}
+/* Container Styling */
+.update-container {
+    width: 100%;
+    max-width: 500px; /* Limit container width for better readability */
+    margin: 20px auto; /* Center the container */
+    padding: 20px;
+    background-color: #f9f9f9; /* Light background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    text-align: left;
+    font-family: Arial, sans-serif;
+}
+
+/* Heading */
+.update-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Labels */
+.update-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Inputs */
+.update-container .form-input,
+.update-container .form-dropdown {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+/* Focus Effect */
+.update-container .form-input:focus,
+.update-container .form-dropdown:focus {
+    border-color: #8b6248; /* Highlight border on focus */
+}
+
+/* Buttons */
+.update-container .button-container {
+    display: flex;
+    justify-content: space-between; /* Space out buttons */
+}
+
+.update-container .form-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Update Button */
+.update-container .update-btn {
+    background-color: #8b6248; /* Dark brown */
+    color: #fff;
+}
+
+.update-container .update-btn:hover {
+    background-color: #704f3d; /* Slightly darker brown */
+    transform: translateY(-2px); /* Subtle lift */
+}
+
+/* Delete Button */
+.update-container .delete-btn {
+    background-color: #e74c3c; /* Red */
+    color: #fff;
+}
+
+.update-container .delete-btn:hover {
+    background-color: #c0392b; /* Darker red */
+    transform: translateY(-2px); /* Subtle lift */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .update-container {
+        padding: 15px;
+    }
+
+    .update-container .button-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .update-container .form-button {
+        width: 100%;
+        text-align: center;
+    }
+    .btn-submit1 {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 3px;
+    border: 2px solid #4A3F35 ;
+    cursor: pointer;
+    width: 50%;
+}
+}
+/* Style for the search container */
+.search-container {
+    float: right;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+.search-container2 {
+    float: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8f9fa;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 1px;
+    width:14%;
+}
+
+/* Style for the dropdown */
+.search-dropdown {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+/* Style for the search input */
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+}
+.btn-submit1 {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 3px;
+    border: 2px solid #4A3F35 ;
+    cursor: pointer;
+    width: 20%;
+}
+
+.btn-submit1:hover {
+    background-color: #155aaf;
+    color:white;
+}

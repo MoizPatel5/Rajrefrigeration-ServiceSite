@@ -1,0 +1,250 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="EmployeeMasterPage.master.cs" Inherits="EmployeeMasterPage" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Employee Dashboard</title>
+    <link rel="stylesheet" href="EmployeeMasterPage.css" />
+    <link rel="icon" type="image/svg" href="imgs/RRLogo.svg" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+
+    <style>
+        .main-flex-container {
+            display: flex;
+        }
+
+        .nav-buttons {
+            width: 60px;
+            background-color: #8b6248;
+            transition: width 0.3s ease;
+            padding-top: 10px;
+        }
+
+            .nav-buttons:hover {
+                width: 290px;
+            }
+
+        .content-wrapper {
+            flex-grow: 1;
+            padding: 20px;
+            transition: margin-right 0.3s ease;
+            margin-right: 60px; /* match initial panel width */
+        }
+
+        .nav-buttons:hover ~ .content-wrapper {
+            margin-right: 290px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <div class="header">
+                <div class="logo-container">
+                    <img src="imgs/RRLogo.svg" />
+                    <h1 class="logo company-name">Raj Refrigeration</h1>
+                </div>
+
+                <div class="header-logout">
+                    <asp:Button ID="Button1" runat="server" Text="Log Out" OnClick="Button1_Click" CssClass="logout-btn" />
+                </div>
+            </div>
+
+            <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true"></asp:ScriptManager>
+
+            <div class="main-flex-container">
+                <div class="nav-buttons" id="navMenu">
+                    <div class="nav-item">
+                        <img src="imgs/allComplaintsLogo.png" />
+                        <a href="All_Complains.aspx">All Complaints</a>
+                    </div>
+                    <div class="nav-item">
+                        <img src="imgs/inProcessLogo.png" />
+                        <a href="Procs_Complain.aspx">Complaints in Process</a>
+                    </div>
+                    <div class="nav-item">
+                        <img src="imgs/PendingLogo.png" />
+                        <a href="Pending_Complains.aspx">Pending Complaints</a>
+                    </div>
+                    <div class="nav-item">
+                        <img src="imgs/newComplaintLogo.png" />
+                        <a href="Emp_home.aspx">New Complaints</a>
+                    </div>
+                    <div class="nav-item">
+                        <img src="imgs/workDoneLogo.png" />
+                        <a href="Work_Done.aspx">Work Done</a>
+                    </div>
+                    <div class="nav-item">
+                        <img src="imgs/graphLogo.png" />
+                        <a href="WorkGraph.aspx">Graph</a>
+                    </div>
+                    <div class="nav-item">
+                        <img src="imgs/inventoryLogo.png" />
+                        <a href="StockPage.aspx">Inventory</a>
+                    </div>
+                    <div class="nav-item">
+                        <div class="notif-container">
+                            <span class="notif-dot" id="notifDot"></span>
+                            <img src="imgs/allMessages.png" class="notif-img" id="notifImg" />
+                        </div>
+                        <a href="#" id="openPopupViewmgs">View Messages</a>
+                    </div>
+                    <div class="nav-item">
+                        <img src="imgs/sendMessage.png" />
+                        <a href="#" id="openPopup">Send Messages</a>
+                    </div>
+                </div>
+                <!-- Modal Popup -->
+                <div class="modal-overlay" id="popupOverlay">
+                    <div class="popup-content">
+                        <span class="close-button" id="closePopup">&times;</span>
+
+                        <!-- Your form starts here -->
+                        <div class="worker-form-container" id="div6" runat="server">
+                            <h1 class="header-text">Send Message</h1>
+
+                            <div class="form-group">
+                                <label for="TextBox3">Call ID</label>
+                                <asp:Label ID="Label17" runat="server" Text=""  ForeColor="Green" Style="float: right"></asp:Label>
+                                <asp:TextBox ID="TextBox17" runat="server" placeholder="Enter Call ID"></asp:TextBox>
+                                <asp:Label ID="Label18" runat="server" Text="" ForeColor="Red" ></asp:Label>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="TextBox4">Message</label>
+                                <asp:TextBox ID="TextBox18" runat="server" placeholder="Enter Message"></asp:TextBox>
+                                <asp:Label ID="Label19" runat="server" Text="" ForeColor="Red" ></asp:Label>
+                            </div>
+                            <asp:Button ID="Button6" runat="server" CssClass="btn-submit" Text="Send Message" OnClientClick="return validateMessageForm();" OnClick="Button6_Click" />
+                        </div>
+                    </div>
+                </div>
+                <!-- Modal Popup -->
+                <div class="custom-modal" runat="server" id="modaldiv">
+                    <div class="custom-modal-header">
+                        <center><h4 class="custom-modal-title">All Messages</h4></center>
+                        <asp:Button ID="Button2" runat="server" Text="&#10006;" CssClass="custom-modal-close" />
+                    </div>
+
+                    <div class="custom-modal-body">
+                        <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="false" CssClass="gridview" OnRowCommand="Gridview2_Rowcommand" OnRowDataBound="GridView2_RowDataBound">
+                            <Columns>
+                                <asp:BoundField DataField="Call_Id" HeaderText="Call Id" />
+                                <asp:BoundField DataField="Message" HeaderText="Message" />
+                                <asp:TemplateField HeaderText="Actions">
+                                    <ItemTemplate>
+                                        <div class="custom-action-container">
+                                            <asp:LinkButton ID="LinkButton2" runat="server" CssClass="custom-action-btn" CommandName="Seenmgs" CommandArgument='<%#Eval("Id") %>'>
+                                <img src="imgs/seenicon.png" class="custom-action-icon" alt="Seen" title="Seen" />
+                                            </asp:LinkButton>
+
+                                            <asp:LinkButton ID="LinkButton3" runat="server" CssClass="custom-action-btn" CommandName="CustomDelete" CommandArgument='<%#Eval("Id") %>'>
+                                <span class="custom-delete-icon" title="Delete">&#10006;</span>
+                                            </asp:LinkButton>
+                                        </div>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                            </Columns>
+                        </asp:GridView>
+                    </div>
+                </div>
+
+                <div class="content-wrapper" id="mainContent">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+            </div>
+
+            <div class="footer">
+                &copy;
+                <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+                Raj Refrigeration. All rights reserved.
+                <p>
+                    Design and developed by - <span class="developer-name"><b>Moiz Patel</b></span>
+                </p>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        document.getElementById("openPopup").addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("popupOverlay").style.display = "flex";
+        });
+
+        document.getElementById("closePopup").addEventListener("click", function () {
+            document.getElementById("popupOverlay").style.display = "none";
+        });
+
+        // Optional: close modal when clicking outside the content
+        document.getElementById("popupOverlay").addEventListener("click", function (e) {
+            if (e.target === this) {
+                this.style.display = "none";
+            }
+        });
+        $(document).ready(function () {
+            $('#openPopupViewmgs').click(function (e) {
+                e.preventDefault();
+                $('#<%= modaldiv.ClientID %>').fadeIn();
+            });
+
+            $('.custom-modal-close').click(function () {
+                $('#<%= modaldiv.ClientID %>').fadeOut();
+            });
+        });
+        setInterval(function () {
+            $.ajax({
+                type: "POST",
+                url: "NotificationChecker.aspx/HasUnreadMessages",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    const hasUnread = response.d;
+                    const img = document.getElementById('notifImg');
+                    const dot = document.getElementById('notifDot');
+
+                    if (hasUnread) {
+                        dot.style.display = 'block';
+                        img.classList.add('notif-pulse');
+                    } else {
+                        dot.style.display = 'none';
+                        img.classList.remove('notif-pulse');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error checking notifications:", error);
+                }
+            });
+        }, 10000); // 10 seconds (10000 milliseconds)
+
+        function validateMessageForm() {
+            var callId = document.getElementById('<%= TextBox17.ClientID %>').value.trim();
+            var message = document.getElementById('<%= TextBox18.ClientID %>').value.trim();
+
+            var isValid = true;
+
+            if (callId === "") {
+                $('#<%= Label18.ClientID %>').text('Enter Call ID').show();
+                $('#<%= Label19.ClientID %>').hide();
+                $('#<%= Label17.ClientID %>').hide();
+                isValid = false;
+            } else if (message === "") {
+                $('#<%= Label19.ClientID %>').text('Enter Message').show();
+            $('#<%= Label18.ClientID %>').hide();
+            $('#<%= Label17.ClientID %>').hide();
+            isValid = false;
+            } else {
+                        $('#<%= Label17.ClientID %>').hide();
+                        $('#<%= Label18.ClientID %>').hide();
+                        $('#<%= Label19.ClientID %>').hide();
+                    }
+
+                return isValid; // if false, prevents postback
+            }
+    </script>
+
+</body>
+</html>

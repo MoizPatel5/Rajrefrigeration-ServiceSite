@@ -1,0 +1,88 @@
+﻿/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color:#F8F1E7;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /*background-color:#F8F1E7;*/
+}
+
+.header {
+    background-color: #8b6248;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    height: 100px; /* Try increasing this */
+}
+
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    height: 100%; /* Inherit full height of header */
+    margin: 0;
+    padding: 0;
+}
+
+
+.logo-container img {
+    height: 90%; /* Make it fill the height of the container */
+    width: auto;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+
+.header .logo {
+    margin: 0 0 0 10px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+
+
+/* Main Content Styles */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #F8F1E7;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #8b6248;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px 10px;
+}
+
+.footer .footer-content {
+    font-size: 14px;
+}
+
+.footer .developer-name {
+    font-weight: bold;
+    color: gold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .logout-button {
+        margin-top: 10px;
+        align-self: flex-end;
+    }
+}

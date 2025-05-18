@@ -1,0 +1,43 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="UserMaster.master.cs" Inherits="UserMaster" %>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>User Dashboard</title>
+    <link rel="icon" type="image/svg" href="imgs/RRLogo.svg" />
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link rel="stylesheet" href="UserMaster.css" />
+    <link rel="stylesheet" href="gridviewstyle.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="container">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo-container">
+                    <img src="imgs/RRLogo.svg" />
+                    <h1 class="logo company-name">Raj Refrigeration</h1>
+                </div>
+                <asp:Button ID="Button1" runat="server" Text="Log Out" CssClass="logout-button" OnClick="Button1_Click" />
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-content">
+                    &copy;
+                    <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
+                    Raj Refrigeration. All Rights Reserved.
+                    <p>Design and developed by - <span class="developer-name">Moiz Patel</span></p>
+                </div>
+            </footer>
+        </div>
+    </form>
+</body>
+</html>

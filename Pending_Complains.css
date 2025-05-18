@@ -1,0 +1,470 @@
+﻿/* Popup container styles */
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Popup content styles */
+.popup-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    position: relative;
+}
+
+.popup-label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Close button */
+.popup-close-btn {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.popup-close-btn:hover {
+    background-color: #c9302c;
+}
+
+.btn-group {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Spacing between elements */
+}
+/* Style for delete (X) button */
+.btn-group .delete-btn {
+    background: none; /* Removes background */
+    color: red; /* Makes 'X' visible */
+    border: none; /* Removes border */
+    padding: 0; /* Removes padding */
+    font-size: 20px; /* Adjust size */
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    outline: none; /* Removes focus outline */
+}
+
+/* Hover effect */
+.btn-group .delete-btn:hover {
+    color: darkred;
+    transform: scale(1.3);
+}
+
+
+/* Style for the link button (update icon) */
+.btn-group .link-btn img {
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+/* Hover effect for the update icon */
+.btn-group .link-btn img:hover {
+    transform: scale(1.2);
+    filter: brightness(0.8);
+}
+.complain-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.complain-button {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.complain-button:hover {
+    background-color: #4cae4c;
+}
+.stylish-hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, #007bff, #00d4ff);
+    margin: 40px 0;
+    position: relative;
+}
+/*.container2 {
+    display: flex; 
+   
+    gap: 20px; 
+    width: 90%; 
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    align-items:center;
+}
+
+.flexdiv {
+    width: 50%; 
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+   
+}
+
+.h12 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.label-text {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #555;
+}
+
+
+
+.reassign-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.reassign-button:hover {
+    background-color: #45a049;
+}
+
+.message-label {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #f44336;
+}
+.gridview-class {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.gridview-class th, .gridview-class td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.gridview-class th {
+    background-color: #4CAF50; 
+    color: white;
+    font-weight: bold;
+}
+
+.gridview-class tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.gridview-class tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.gridview-class td {
+    color: #333;
+}
+
+.gridview-class td:first-child {
+    font-weight: bold;
+}
+
+.gridview-class td:last-child {
+    text-align: center;
+}
+
+.gridview-class .reason-field {
+    color: #f44336;
+    font-style: italic;
+}
+
+.message-label {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #f44336;
+    text-align: center;
+}
+.label
+{
+    color:green;
+}
+.logout-btn {
+    float: right;
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #ff1a1a;
+}*/
+.input-textbox {
+    width: 90%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+/* General container styling */
+.container2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #F8F1E7;
+    padding: 20px;
+}
+
+.boxes-wrapper {
+    display: flex;
+    gap: 5%;
+    width: 100%;
+    max-width: 1100px;
+    align-items: stretch; /* Ensures both boxes stretch to the tallest */
+}
+
+.work-done-box,
+.pending-box {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Heading styling */
+.updatebox-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.label-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-textbox {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.part-div {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f7f7f7;
+    border: 1px dashed #ddd;
+    border-radius: 5px;
+}
+
+/* Button styling */
+.reassign-button {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.reassign-button:hover {
+    background-color: #45a049;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .work-done-box {
+        padding: 20px;
+    }
+    
+}
+
+                        /* SEARCH CONTENT END */ 
+.search-container {
+    float: right;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+.search-container2 {
+    float: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    width:10%;
+}
+
+/* Style for the search input */
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+}
+
+/* Style for the search button */
+.search-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+.cancel-container {
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.cancel-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #888;
+    width: 400px;
+    text-align: center;
+}
+
+.cancel-close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.error-message {
+    color: red;
+    text-align: right;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.textbox {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.top-right-filters {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin: 10px 20px 20px 0;
+}
+
+.filter-dropdown {
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    min-width: 160px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+.filter-dropdown:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+}
