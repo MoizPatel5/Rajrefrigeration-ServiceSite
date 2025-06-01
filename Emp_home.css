@@ -1,0 +1,835 @@
+﻿ body {
+            font-family: Arial, sans-serif;
+            background-color: #F8F1E7;
+            margin: 0;
+            padding: 0;
+        }
+ /* Main container for the dropdown and buttons */
+.btn-group {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Spacing between elements */
+}
+/* Style for the dropdown list */
+.btn-group .dropdownlist {
+    padding: 6px 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #f7f7f7;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+/* Dropdown focus and hover effect */
+.btn-group .dropdownlist:hover,
+.btn-group .dropdownlist:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Style for assign (tick) button */
+.btn-group .assign-btn {
+    background-color: transparent;
+    color: green;
+    border: none;
+    padding: 6px 10px;
+    /*border-radius: 6px;*/
+    font-size: 16px;
+    cursor: pointer;
+    /*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);*/
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+/* Overlay Effect */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    display: none; /* Hidden by default */
+}
+
+/* Popup Box */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    z-index: 1000;
+    display: none; /* Hidden by default */
+    width: 400px;
+}
+
+/* Close Button */
+.close-btn {
+    background: #f44336;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.close-btn:hover {
+    background: #d32f2f;
+}
+
+
+/* Hover effect for assign button */
+.btn-group .assign-btn:hover {
+    background-color: transparent;
+    transform: scale(1.5);
+    color:lightgreen;
+}
+
+/* Style for delete (X) button */
+.btn-group .delete-btn {
+    background-color: transparent;
+    color: red;
+    border: none;
+    padding: 6px 10px;
+    padding-left:1px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    /*box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);*/
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover effect for delete button */
+.btn-group .delete-btn:hover {
+    color:darkred;
+    transform: scale(1.5);
+}
+
+/* Style for the link button (update icon) */
+.btn-group .link-btn img {
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+/* Hover effect for the update icon */
+.btn-group .link-btn img:hover {
+    transform: scale(1.2);
+    filter: brightness(0.8);
+}
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f8f3ec;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .logout-button {
+            float: right;
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .logout-button:hover {
+            background-color: #c82333;
+        }
+
+        /*table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #dee2e6;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        td {
+            background-color: #f8f9fa;
+        }*/
+
+        .dropdown {
+            padding: 5px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            background-color: #fff;
+            margin-right: 10px;
+        }
+
+        .button {
+            padding: 5px 10px;
+            font-size: 14px;
+            color: #fff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #218838;
+        }
+
+        .button.decline {
+            background-color: #dc3545;
+        }
+
+        .button.decline:hover {
+            background-color: #c82333;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        footer {
+    background-color: #333;
+    color: #fff;
+    padding: 40px 0;
+    font-size: 14px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 0 20px;
+    min-width: 200px;
+}
+
+.footer-section h2 {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.footer-section p, .footer-section ul, .footer-section li {
+    color: #bbb;
+    margin-bottom: 10px;
+}
+
+.footer-section a {
+    color: #bbb;
+    text-decoration: none;
+}
+
+.footer-section a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 20px;
+    background-color: #222;
+    border-top: 1px solid #444;
+    margin-top: 40px;
+}
+
+.footer-bottom p {
+    margin: 0;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    color: #bbb;
+    text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+    color: #fff;
+}
+
+.footer-section .fas {
+    margin-right: 10px;
+}
+
+.footer-section .contact p {
+    display: flex;
+    align-items: center;
+}
+.complain-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.complain-button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.complain-button:hover {
+    background-color: #0056b3;
+}
+
+.complain-button:focus {
+    outline: none;
+}
+.stylish-hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, #007bff, #00d4ff);
+    margin: 40px 0;
+    position: relative;
+}
+
+/*.stylish-hr::before {
+    content: '\f061';
+    /*font-family: "Font Awesome 5 Free";*/ /* Ensure Font Awesome is included if using an icon */
+    font-weight: 900;
+    position: absolute;
+    left: 50%;
+    top: -12px;
+    transform: translateX(-50%);
+    background-color: #fff;
+    color: #007bff;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 18px;
+}*/
+
+.label-div {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+    gap: 10px;
+    padding: 10px; /* Adds padding inside the border for a cleaner look */
+}
+
+.label-style {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    padding: 5px 10px; /* Adds padding inside the label to make the text look better */
+    display: inline-block; /* Ensures the label's border wraps just around the text */
+}
+
+
+.whatsapp-btn {
+    background-color: #25D366;
+    color: white;
+    border-radius:5px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.whatsapp-btn:hover {
+    background-color: #1eb154;
+}
+
+.div-border{
+    border:2px solid black;
+    border-radius : 5px;
+   height:1px;
+   width:1px;
+}
+ #div2 {
+            background-color: #f4f4f9; /* Light gray background */
+            border: 1px solid #ccc; /* Light gray border */
+            padding: 15px; /* Padding inside the div */
+            margin: 20px 0; /* Margin for spacing */
+            border-radius: 8px; /* Rounded corners */
+            text-align: center; /* Center-align text */
+            width: 300px; /* Fixed width */
+            float: right; /* Align to the right side */
+        }
+        #div2 p {
+            color: #333; /* Darker text color */
+            font-size: 16px; /* Font size */
+            margin-bottom: 15px; /* Space between text and buttons */
+        }
+        #div2 .button-container {
+            text-align: right; /* Align buttons to the right */
+        }
+        #div2 .button-container button {
+            background-color: #007bff; /* Blue background for 'Yes' button */
+            border: none; /* Remove border */
+            color: white; /* White text */
+            padding: 10px 20px; /* Padding inside buttons */
+            text-align: center; /* Center text */
+            text-decoration: none; /* Remove underline */
+            display: inline-block; /* Align buttons inline */
+            font-size: 16px; /* Font size */
+            margin: 5px; /* Space between buttons */
+            cursor: pointer; /* Pointer cursor on hover */
+            border-radius: 4px; /* Rounded corners */
+            transition: background-color 0.3s ease; /* Smooth background color transition */
+        }
+        #div2 .button-container button:nth-of-type(2) {
+            background-color: #dc3545; /* Red background for 'No' button */
+        }
+        #div2 .button-container button:hover {
+            opacity: 0.8; /* Slightly transparent on hover */
+        }
+
+/* Container styling */
+.container-complainsection {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: #f5f5f5;
+    height: 1px;
+}
+
+/* Individual section styling */
+.section {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 300px;
+}
+
+/* Section headers */
+.section h1 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #3498db;
+}
+
+/* Input fields styling */
+.section input[type="text"] {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Button styling */
+.button {
+    background-color: #3498db;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #2980b9;
+}
+
+.button.decline {
+    background-color: #e74c3c;
+}
+
+.button.decline:hover {
+    background-color: #c0392b;
+}
+
+/* WhatsApp button styling */
+.whatsapp-btn {
+    background-color: #25d366;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.whatsapp-btn:hover {
+    background-color: #128c7e;
+}
+
+/* Label styling */
+.label-style {
+    display: block;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+/* Label container styling */
+.label-div {
+    margin-top: 1rem;
+}
+
+.div-border {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f8f9fa;
+    height: 20px;
+}
+
+/* Error and success messages */
+[id*="Label"][forecolor="#FF3300"],
+[forecolor="Red"] {
+    color: #e74c3c;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+[forecolor="green"] {
+    color: #27ae60;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+/* Responsive design */
+/*@media (max-width: 1200px) {
+    .container-complainsection {
+        flex-direction: column;
+    }
+    
+    .section {
+        margin-bottom: 2rem;
+    }
+}*/
+/* Container styling */
+    .divaddress {
+        background-color: #e3f2fd; /* Light blue background */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+        max-width: 300px;
+        margin-top: 10px;
+    }
+
+    /* Apply Filter Button */
+    .Button5 {
+        background-color: #1e88e5; /* Primary blue color */
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        width: 100%; /* Full width to align with the checkboxes */
+        margin-top: 10px;
+    }
+
+    .Button5:hover {
+        background-color: #1565c0; /* Darker blue on hover */
+    }
+
+    /* Address Filter Button */
+    .btnAddressFilter {
+        background-color: #1e88e5;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .btnAddressFilter:hover {
+        background-color: #1565c0;
+    }
+
+    /* CheckBox List styling */
+    .chkAddressList {
+        margin: 10px 0;
+    }
+
+    .chkAddressList input[type="checkbox"] {
+        accent-color: #1e88e5; /* Blue checkboxes */
+    }
+    /* Style for the search container */
+.search-container {
+    float: right;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+}
+.search-container2 {
+    float: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
+    width:13%;
+}
+
+/* Style for the dropdown */
+.search-dropdown {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+/* Style for the search input */
+.search-input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+}
+/* Modern div styling */
+.modern-div {
+    width: auto;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+/* Message styling */
+.modern-div .message {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Button container styling */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Button styling */
+.button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.yes-button {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 3px;
+    border: 3px solid #4A3F35 ;
+    cursor: pointer;
+}
+
+.no-button {
+   background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 3px;
+    border: 3px solid #4A3F35 ;
+    cursor: pointer;
+}
+
+/* Button hover effects */
+.yes-button:hover {
+   background-color: #155aaf;
+    color:white;
+}
+
+.no-button:hover {
+    background-color: #155aaf;
+    color:white;
+}
+.assignAllDiv {
+    /*display: none;*/
+    width: 400px;
+    background-color: #f4f4f9;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    margin-left: 20px; /* Align to the left side */
+    font-family: Arial, sans-serif;
+    transition: all 0.3s ease;
+}
+
+
+.assignAllDiv label {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.worker {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fafafa;
+    transition: border-color 0.2s ease;
+}
+
+.worker:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.assignAll {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: block;
+    margin-top: 10px;
+    width: 100%;
+    font-weight: 600;
+}
+
+.assignAll:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 480px) {
+    .assignAllDiv {
+        padding: 15px;
+    }
+
+    .assignAll {
+        padding: 8px;
+    }
+}
+.cancel-container {
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.cancel-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #888;
+    width: 400px;
+    text-align: center;
+}
+
+.cancel-close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.error-message {
+    color: red;
+    text-align: right;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.textbox {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

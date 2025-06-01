@@ -1,0 +1,123 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cinzel+Decorative:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kenao+Sans+Serif&family=RoxboroughCf&display=swap');
+/* Header Styling */
+.gridview {
+    border-collapse: collapse;
+    width:100%;
+}
+.gridview th {
+    background-color: #4A3F35; /* Blue background */
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    border: 1px solid #ddd;
+}
+
+/* Row Styling */
+.gridview td {
+    padding: 10px;
+    text-align: center;
+    font-size: 13px;
+    border: 1px solid #ddd;
+}
+
+/* Alternating Row Colors */
+.gridview tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.gridview tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Hover Effect */
+.gridview tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.2s;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .gridview {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .gridview th, .gridview td {
+        padding: 8px; /* Slightly smaller padding for small screens */
+        font-size: 12px; /* Reduce font size */
+    }
+}
+
+/* Extra Small Devices (Phones) */
+@media (max-width: 480px) {
+    .gridview th, .gridview td {
+        font-size: 11px; /* Further reduce font size */
+        padding: 6px;    /* Reduce padding */
+    }
+}
+.btn-submit {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    border-radius: 3px;
+    border: 5px solid #4A3F35 ;
+    cursor: pointer;
+    width: 100%;
+}
+
+.btn-submit:hover {
+    background-color: #155aaf;
+    color:white;
+}
+
+.no-data-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    text-align: center;
+    flex-direction: column; /* Allows stacking if there's more content */
+    margin-right : 1000px;
+}
+
+.no-data-image {
+    max-width: 50%; /* Adjust size as needed */
+    height: auto;
+}
+
+
+.no-data-image {
+    display: block;
+    margin: 20px auto;
+    max-width: 100%; 
+    height: auto;    
+    text-align: center;
+    top:0%;
+}
+
+@media (max-width: 768px) {
+    .no-data-image {
+        width: 80%; 
+    }
+}
+
+@media (max-width: 480px) {
+    .no-data-image {
+        width: 70%; 
+    }
+}
+.company-name{
+    font-family: 'Cinzel Decorative', serif;
+}
+.updatebox-text{
+    font-family: 'RoxboroughCf', serif;
+}
+.header-text{
+    font-family: 'RoxboroughCf', serif;
+    text-transform:uppercase;
+    font-size:30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
