@@ -18,7 +18,12 @@ public class Class1
 	}
     public string connectionString()
     {
-        string cn = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=D:\Sri_Om_Infotech\ASP.NET\Raj_Refrigeration\App_Data\Database.mdf;Integrated Security=True";
+        //LOCAL DB CONNECTIONSTRINGS
+        //string cn = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=D:\Sri_Om_Infotech\ASP.NET\Raj_Refrigeration\App_Data\Database.mdf;Integrated Security=True";
+
+        //LOCAL SSMS DB CONNECTIONSTRINGS
+        string cn = @"Data Source=localhost;Initial Catalog=rajreykw_;Integrated Security=True;";
+
         return cn;
     }
 }
