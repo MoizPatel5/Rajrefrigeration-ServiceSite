@@ -257,7 +257,7 @@
         $(".filterDrp").on("change", function () {
             var company = $("#<%= cmpnyDrp.ClientID %>").val();
             var partPending = $("#<%= partPendingDrp.ClientID %>").val();
-
+            
             $.ajax({
                 type: "POST",
                 url: "Pending_Complains.aspx/drpFilters",
@@ -280,7 +280,7 @@
                         // Add new rows
                         $.each(data, function (i, item) {
                             var row = "<tr>";
-                            row += "<td>" + item.Call_id + "</td>";
+                            row += "<td>" + item.Call_Id + "</td>";
                             row += "<td>" + item.Date + "</td>";
                             row += "<td>" + item.Name + "</td>";
                             row += "<td>" + item.Contact + "</td>";
@@ -294,8 +294,8 @@
                             row += "<td>" + item.Reason + "</td>";
                             row += "<td>" + item.PartPending + "</td>";
                             row += "<td class='btn-group'>" +
-                                   "<a href='javascript:void(0);' class='delete-btn' onclick='cancelComplaint(\"" + item.Call_id + "\")' title='Cancel Complaint'>X</a> " +
-                                   "<a href='javascript:void(0);' class='link-btn' onclick='openUpdatePopup(\"" + item.Call_id + "\")'>" +
+                                "<a href='javascript:void(0);' class='delete-btn' onclick='cancelComplaint(\"" + item.Call_Id + "\")' title='Cancel Complaint'>X</a> " +
+                                "<a href='javascript:void(0);' class='link-btn' onclick='openUpdatePopup(\"" + item.Call_Id + "\")'>" +
                                    "<img src='imgs/updatecallid.png' alt='Update' width='25px' height='25px' />" +
                                    "</a></td>";
                             row += "</tr>";
@@ -344,7 +344,7 @@
 
         openPopup(); // Your existing function to show popup
     }
-</script>
+    </script>
 
 
 </asp:Content>

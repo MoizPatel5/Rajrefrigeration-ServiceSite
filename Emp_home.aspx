@@ -35,9 +35,9 @@
             margin-left: 0;
         }
 
-        .btn-danger:hover {
+            .btn-danger:hover {
                 background-color: #c82333; /* Darker red on hover */
-        }
+            }
 
         .highlight-repeated {
             background-color: #fff3cd !important; /* light yellow */
@@ -155,7 +155,7 @@
                                     <asp:LinkButton ID="LinkButton1" runat="server" CommandArgument='<%# Eval("Call_Id") %>'
                                         CommandName="Updatecallid" CssClass="link-btn" OnClick="LinkButton1_Click">
                                             <img src="imgs/updatecallid.png" alt="Update" title="Update" width="25px" height="25px">
-                                            </asp:LinkButton>
+                                    </asp:LinkButton>
                                 </div>
                             </td>
                         </tr>
@@ -192,28 +192,28 @@
             <button type="button" class="btn-submit" onclick="closePopup()" style="width: 49%;">Close</button>
         </div>
     </div>
-     <%--CANCEL MODAL POPUP--%>
-        <div id="cancelModal" class="cancel-container" style="display: none;">
-            <div class="cancel-content">
-                <h2 class="cancel-title">Cancel Complaint</h2>
-                <asp:Label ID="Label18" runat="server" Text="" Visible="false" Style="float: right;"></asp:Label>
-                <asp:Label ID="Label19" runat="server" Text="" Visible="false" class="error-message"></asp:Label>
-                <br />
-                <div class="form-group">
-                    <label for="TextBox13">Call ID:</label>
-                    <asp:HiddenField ID="HiddenField1" runat="server" />
-                    <asp:TextBox ID="TextBox1" runat="server" CssClass="textbox" ReadOnly="true"></asp:TextBox>
-                </div>
-                <div class="form-group">
-                    <label for="TextBox14">Enter Reason:</label>
-                    <asp:TextBox ID="TextBox13" runat="server" CssClass="textbox" TextMode="MultiLine"></asp:TextBox>
-                </div>
-                <div class="button-group">
-                    <asp:Button ID="Button5" runat="server" Text="Save" CssClass="btn-submit" OnClick="Cancel_Click" Width="49%" />
-                    <asp:Button ID="Button6" runat="server" Text="Close" CssClass="btn-submit" OnClientClick="closeCancelModal(); return false;" Width="49%" />
-                </div>
+    <%--CANCEL MODAL POPUP--%>
+    <div id="cancelModal" class="cancel-container" style="display: none;">
+        <div class="cancel-content">
+            <h2 class="cancel-title">Cancel Complaint</h2>
+            <asp:Label ID="Label18" runat="server" Text="" Visible="false" Style="float: right;"></asp:Label>
+            <asp:Label ID="Label19" runat="server" Text="" Visible="false" class="error-message"></asp:Label>
+            <br />
+            <div class="form-group">
+                <label for="TextBox13">Call ID:</label>
+                <asp:HiddenField ID="HiddenField1" runat="server" />
+                <asp:TextBox ID="TextBox1" runat="server" CssClass="textbox" ReadOnly="true"></asp:TextBox>
+            </div>
+            <div class="form-group">
+                <label for="TextBox14">Enter Reason:</label>
+                <asp:TextBox ID="TextBox13" runat="server" CssClass="textbox" TextMode="MultiLine"></asp:TextBox>
+            </div>
+            <div class="button-group">
+                <asp:Button ID="Button5" runat="server" Text="Save" CssClass="btn-submit" OnClick="Cancel_Click" Width="49%" />
+                <asp:Button ID="Button6" runat="server" Text="Close" CssClass="btn-submit" OnClientClick="closeCancelModal(); return false;" Width="49%" />
             </div>
         </div>
+    </div>
     <div class="div-border" runat="server" visible="false">
         <asp:Label ID="Label8" runat="server" Text="" Visible="false"></asp:Label>
 
@@ -310,14 +310,32 @@
         });
         function cancelComplaint(callId) {
             document.getElementById("<%= TextBox1.ClientID %>").value = callId;
-             document.getElementById("<%= HiddenField1.ClientID %>").value = callId;
-             document.getElementById("<%= TextBox13.ClientID %>").value = "";
-             document.getElementById("cancelModal").style.display = "block";
-         }
+            document.getElementById("<%= HiddenField1.ClientID %>").value = callId;
+            document.getElementById("<%= TextBox13.ClientID %>").value = "";
+            document.getElementById("cancelModal").style.display = "block";
+        }
 
-         function closeCancelModal() {
-             document.getElementById("cancelModal").style.display = "none";
-         }
+        function closeCancelModal() {
+            document.getElementById("cancelModal").style.display = "none";
+        }
+        function checkCancelForm() {
+            var callId = document.getElementById('<%= TextBox1.ClientID %>').value.trim();
+            var reason = document.getElementById('<%= TextBox13.ClientID %>').value.trim();
+            var saveBtn = document.getElementById('<%= Button5.ClientID %>');
+
+            if (callId === "" || reason === "") {
+                saveBtn.disabled = true;
+            } else {
+                saveBtn.disabled = false;
+            }
+        }
+
+        // Attach the checkCancelForm function to keyup and change events
+        window.onload = function () {
+            document.getElementById('<%= TextBox1.ClientID %>').addEventListener('input', checkCancelForm);
+        document.getElementById('<%= TextBox13.ClientID %>').addEventListener('input', checkCancelForm);
+            checkCancelForm(); // Run on load in case fields are prefilled
+        };
 
     </script>
 

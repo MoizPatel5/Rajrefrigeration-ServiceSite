@@ -88,7 +88,7 @@
 
                     <div class="form-group">
                         <label for="TextBox4">Password</label>
-                        <asp:TextBox ID="TextBox4" runat="server" placeholder="Enter Password"></asp:TextBox>
+                        <asp:TextBox ID="TextBox4" TextMode="Password" runat="server" placeholder="Enter Password"></asp:TextBox>
                         <asp:Label ID="Label5" runat="server" Text="" ForeColor="Red" Visible="false"></asp:Label>
                     </div>
 
@@ -105,7 +105,7 @@
 
                     <div class="form-group">
                         <label for="TextBox4">Password</label>
-                        <asp:TextBox ID="TextBox6" runat="server" placeholder="Enter Password"></asp:TextBox>
+                        <asp:TextBox ID="TextBox6" TextMode="Password" runat="server" placeholder="Enter Password"></asp:TextBox>
                         <asp:Label ID="Label8" runat="server" Text="" ForeColor="Red" Visible="false"></asp:Label>
                     </div>
 
@@ -260,7 +260,7 @@
                                         <asp:BoundField DataField="Company" HeaderText="Company" SortExpression="Company" />
                                         <asp:BoundField DataField="Warranty" HeaderText="Warranty" SortExpression="Warranty" />
                                         <asp:BoundField DataField="Problem" HeaderText="Problem" SortExpression="Problem" />
-                                        <asp:BoundField DataField="WorkDoneBy" HeaderText="WorkDoneBy" SortExpression="WorkDoneBy" />
+                                        <asp:BoundField DataField="Assigned_To" HeaderText="Assigned_To" SortExpression="Assigned_To" />
                                         <asp:BoundField DataField="Details" HeaderText="Details" SortExpression="Details" />
                                         <asp:BoundField DataField="Charges" HeaderText="Charges" SortExpression="Charges" />
                                         <asp:BoundField DataField="ToPay" HeaderText="ToPay" SortExpression="ToPay" />

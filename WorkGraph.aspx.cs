@@ -32,7 +32,7 @@ public partial class Default2 : Page
             string formattedStartDate = startDate.ToString("yyyy-MM-dd");
             string formattedEndDate = endDate.ToString("yyyy-MM-dd");
 
-            string filterQuery = "SELECT WorkDoneBy, COUNT(*) AS TotalComplains FROM Work_Done WHERE [Date] >= @StartDate AND [Date] <= @EndDate";
+            string filterQuery = "SELECT Assigned_To, COUNT(*) AS TotalComplains FROM All_Complaints WHERE Status = 'Done' AND [Date] >= @StartDate AND [Date] <= @EndDate";
 
             string warrantyStatus = ddlWarrantyStatus.SelectedValue;
             if (!string.IsNullOrEmpty(warrantyStatus))
@@ -40,7 +40,7 @@ public partial class Default2 : Page
                 filterQuery += " AND Warranty = @WarrantyStatus";
             }
 
-            filterQuery += " GROUP BY WorkDoneBy ORDER BY TotalComplains DESC";
+            filterQuery += " GROUP BY Assigned_To ORDER BY TotalComplains DESC";
 
             SqlConnection conn = new SqlConnection(connection);
             SqlCommand cmd = new SqlCommand(filterQuery, conn);
@@ -63,7 +63,7 @@ public partial class Default2 : Page
                 int totalComplaints = 0;
                 while (reader.Read())
                 {
-                    string worker = reader["WorkDoneBy"].ToString();
+                    string worker = reader["Assigned_To"].ToString();
                     int totalComplains = Convert.ToInt32(reader["TotalComplains"]);
 
                     // Add data points to the chart

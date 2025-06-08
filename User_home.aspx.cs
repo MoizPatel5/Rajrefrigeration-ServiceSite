@@ -19,7 +19,7 @@ public partial class User_home : System.Web.UI.Page
     {
         checklogin();
         connection = obj.connectionString();
-        if(!IsPostBack)
+        if (!IsPostBack)
         {
             RadioButtonList1.SelectedValue = "Register Complaint";
             TextBox2.Text = DateTime.Now.ToString("yyyy-MM-dd");
@@ -33,7 +33,7 @@ public partial class User_home : System.Web.UI.Page
         }
     }
 
-   
+
     protected void Button1_Click(object sender, EventArgs e)
     {
         Response.Redirect("Default.aspx");
@@ -42,7 +42,7 @@ public partial class User_home : System.Web.UI.Page
     {
         string username = Session["Username"].ToString();
         string dealer = Session["Dealer"].ToString();
-        DateTime serverTime = DateTime.UtcNow; 
+        DateTime serverTime = DateTime.UtcNow;
         TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById("India Standard Time");
         DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(serverTime, timeZone);
         string time = localTime.ToString("hh:mm tt");
@@ -59,18 +59,18 @@ public partial class User_home : System.Web.UI.Page
         );
     }
 
-    protected void ValidateAndProcessUser(string p1, string p2, string p3, string p4, string p5, string p8 , string username , string time , string dealer)
+    protected void ValidateAndProcessUser(string p1, string p2, string p3, string p4, string p5, string p8, string username, string time, string dealer)
     {
         long number;
         SqlConnection cn = new SqlConnection(connection);
-        SqlCommand cm = new SqlCommand("SELECT * FROM Complain WHERE Call_Id = @id", cn);
-        cm.Parameters.AddWithValue("@id", p1);
-        SqlCommand allcmplns = new SqlCommand("SELECT * FROM All_Complains WHERE Call_Id = @id", cn);
+        //SqlCommand cm = new SqlCommand("SELECT * FROM Complain WHERE Call_Id = @id", cn);
+        //cm.Parameters.AddWithValue("@id", p1);
+        SqlCommand allcmplns = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_Id = @id", cn);
         allcmplns.Parameters.AddWithValue("@id", p1);
         cn.Open();
-        SqlDataAdapter da = new SqlDataAdapter(cm);
-        DataSet ds = new DataSet();
-        da.Fill(ds);
+        //SqlDataAdapter da = new SqlDataAdapter(cm);
+        //DataSet ds = new DataSet();
+        //da.Fill(ds);
 
         SqlDataAdapter da2 = new SqlDataAdapter(allcmplns);
         DataSet ds2 = new DataSet();
@@ -111,12 +111,12 @@ public partial class User_home : System.Web.UI.Page
             ShowOnlyLabel();
             Label11.Visible = true;
         }
-        else if (ds.Tables[0].Rows.Count > 0 || ds2.Tables[0].Rows.Count > 0)
-        {
-            ShowOnlyLabel();
-            Label2.Visible = true;
-        }
-        else if(TextBox12.Text == "0")
+        //else if (ds.Tables[0].Rows.Count > 0 || ds2.Tables[0].Rows.Count > 0)
+        //{
+        //    ShowOnlyLabel();
+        //    Label2.Visible = true;
+        //}
+        else if (TextBox12.Text == "0")
         {
             string phnumber2 = TextBox12.Text.Trim();
             string phnumber = "";
@@ -128,7 +128,9 @@ public partial class User_home : System.Web.UI.Page
             {
                 phnumber = p4 + " , " + phnumber2;
             }
-            SqlCommand cm2 = new SqlCommand("INSERT INTO Complain VALUES(@id, @date, @name, @cntc, @adrr, @prod, @cmp, @wrnty, @prb , @uname , @time , @dealer)", cn);
+            SqlCommand cm2 = new SqlCommand(
+            "INSERT INTO All_Complaints (Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, RegisBy, Time, Dealer, Status) " +
+            "VALUES (@id, @date, @name, @cntc, @adrr, @prod, @cmp, @wrnty, @prb, @uname, @time, @dealer, @status)", cn);
             cm2.Parameters.AddWithValue("@id", p1);
             cm2.Parameters.AddWithValue("@date", p2);
             cm2.Parameters.AddWithValue("@name", p3);
@@ -141,6 +143,7 @@ public partial class User_home : System.Web.UI.Page
             cm2.Parameters.AddWithValue("@uname", username);
             cm2.Parameters.AddWithValue("@time", time);
             cm2.Parameters.AddWithValue("@dealer", dealer);
+            cm2.Parameters.AddWithValue("@status", "New");
 
             ShowOnlyLabel();
             Label1.Visible = true;
@@ -174,7 +177,9 @@ public partial class User_home : System.Web.UI.Page
                     }
 
                     // Insert the complaint data
-                    SqlCommand cm2 = new SqlCommand("INSERT INTO Complain VALUES(@id, @date, @name, @cntc, @adrr, @prod, @cmp, @wrnty, @prb , @uname , @time , @dealer)", cn);
+                    SqlCommand cm2 = new SqlCommand(
+                    "INSERT INTO All_Complaints (Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, RegisBy, Time, Dealer, Status) " +
+                    "VALUES (@id, @date, @name, @cntc, @adrr, @prod, @cmp, @wrnty, @prb, @uname, @time, @dealer, @status)", cn);
                     cm2.Parameters.AddWithValue("@id", p1);
                     cm2.Parameters.AddWithValue("@date", p2);
                     cm2.Parameters.AddWithValue("@name", p3);
@@ -187,6 +192,7 @@ public partial class User_home : System.Web.UI.Page
                     cm2.Parameters.AddWithValue("@uname", username);
                     cm2.Parameters.AddWithValue("@time", time);
                     cm2.Parameters.AddWithValue("@dealer", dealer);
+                    cm2.Parameters.AddWithValue("@status", "New");
 
                     // Show success label and execute the query
                     ShowOnlyLabel();
@@ -280,7 +286,7 @@ public partial class User_home : System.Web.UI.Page
             generatedCallId = "RRS" + currentDate + new string(result);
 
             // Check if the generated Call_Id already exists in either table
-            SqlCommand cm = new SqlCommand("SELECT COUNT(*) FROM (SELECT Call_Id FROM All_Complains UNION SELECT Call_Id FROM Complain) AS CombinedOrders WHERE Call_Id = @CallId", cn);
+            SqlCommand cm = new SqlCommand("SELECT COUNT(*) FROM (SELECT Call_Id FROM All_Complaints) AS CombinedOrders WHERE Call_Id = @CallId", cn);
             cm.Parameters.AddWithValue("@CallId", generatedCallId);
             int count = (int)cm.ExecuteScalar();
 
@@ -301,8 +307,8 @@ public partial class User_home : System.Web.UI.Page
     {
         string dealer = Session["Dealer"].ToString();
         SqlConnection cn = new SqlConnection(connection);
-        SqlCommand cm = new SqlCommand("SELECT Call_Id , Date , Name , Contact , Address , Product , Company , Warranty , Problem , RegisBy , Time FROM Complain WHERE Dealer = @dealer", cn);
-        cm.Parameters.AddWithValue("@dealer",dealer);
+        SqlCommand cm = new SqlCommand("SELECT Call_Id , Date , Name , Contact , Address , Product , Company , Warranty , Problem , RegisBy , Time FROM All_Complaints WHERE Status = 'New' AND Dealer = @dealer", cn);
+        cm.Parameters.AddWithValue("@dealer", dealer);
         SqlDataAdapter da = new SqlDataAdapter(cm);
         DataTable dt = new DataTable();
         cn.Open();
@@ -316,7 +322,7 @@ public partial class User_home : System.Web.UI.Page
     {
         string dealer = Session["Dealer"].ToString();
         SqlConnection cn = new SqlConnection(connection);
-        SqlCommand cm = new SqlCommand("SELECT Call_id , Date , Name , Contact , Address , Product , Company , Warranty , Problem , Assigned_To , Reason , PartPending FROM Pending_Complain WHERE Dealer = @dealer", cn);
+        SqlCommand cm = new SqlCommand("SELECT Call_id , Date , Name , Contact , Address , Product , Company , Warranty , Problem , Assigned_To , Reason , PartPending FROM All_Complaints WHERE Status = 'Pending' AND Dealer = @dealer", cn);
         cm.Parameters.AddWithValue("@dealer", dealer);
         SqlDataAdapter da = new SqlDataAdapter(cm);
         DataTable dt = new DataTable();
@@ -329,14 +335,14 @@ public partial class User_home : System.Web.UI.Page
     }
     protected void RadioButtonList1_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if(RadioButtonList1.SelectedValue == "Register Complaint")
+        if (RadioButtonList1.SelectedValue == "Register Complaint")
         {
             registerSection.Visible = true;
             div2.Visible = false;
             div3.Visible = false;
             //div4.Visible = false;
         }
-        else if(RadioButtonList1.SelectedValue == "All Registered Complaints")
+        else if (RadioButtonList1.SelectedValue == "All Registered Complaints")
         {
             registerSection.Visible = false;
             AllRegisterdComplaints();
@@ -344,7 +350,7 @@ public partial class User_home : System.Web.UI.Page
             div3.Visible = false;
             //div4.Visible = false;
         }
-        else 
+        else
         {
             registerSection.Visible = false;
             div2.Visible = false;
@@ -364,11 +370,11 @@ public partial class User_home : System.Web.UI.Page
         da.Fill(ds);
         string updateterm = DropDownList4.SelectedValue;
         string newvalue = "";
-        if(updateterm == "Product")
+        if (updateterm == "Product")
         {
             newvalue = DropDownList5.SelectedValue;
         }
-        else if(updateterm == "Company")
+        else if (updateterm == "Company")
         {
             newvalue = DropDownList6.SelectedValue;
         }
@@ -385,7 +391,7 @@ public partial class User_home : System.Web.UI.Page
         cm2.Parameters.AddWithValue("@newvalue", newvalue);
         cm2.Parameters.AddWithValue("@id", TextBox6.Text);
 
-        if(TextBox6.Text == "")
+        if (TextBox6.Text == "")
         {
             Label12.Text = "Enter Call Id";
             Label12.Style.Add("color", "red");
@@ -397,7 +403,7 @@ public partial class User_home : System.Web.UI.Page
             Label12.Style.Add("color", "red");
             Label12.Visible = true;
         }
-        else if(ds.Tables[0].Rows.Count>0)
+        else if (ds.Tables[0].Rows.Count > 0)
         {
             long contactNumber;
             if (updateterm == "Contact")
@@ -424,7 +430,7 @@ public partial class User_home : System.Web.UI.Page
                 Label12.Text = "Complaint updated successfully";
                 Label12.Style.Add("color", "green");
                 Label12.Visible = true;
-            }  
+            }
         }
         else
         {
@@ -437,14 +443,14 @@ public partial class User_home : System.Web.UI.Page
     }
     protected void DropDownList4_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if(DropDownList4.SelectedValue == "Product")
+        if (DropDownList4.SelectedValue == "Product")
         {
             new1.Visible = false;
             new2.Visible = true;
             new3.Visible = false;
             new4.Visible = false;
         }
-        else if(DropDownList4.SelectedValue == "Company")
+        else if (DropDownList4.SelectedValue == "Company")
         {
             new1.Visible = false;
             new2.Visible = false;
@@ -527,7 +533,7 @@ public partial class User_home : System.Web.UI.Page
         using (SqlConnection con = new SqlConnection(connection))
         {
             con.Open();
-            string whereClause = "WHERE Dealer = @dealer";
+            string whereClause = "WHERE Dealer = @dealer AND Status != 'New'";
             if (!string.IsNullOrEmpty(searchValue))
             {
                 whereClause += " AND (Call_Id LIKE @Search OR Date LIKE @Search OR Name LIKE @Search OR Contact LIKE @Search OR Address LIKE @Search OR Product LIKE @Search OR Company LIKE @Search OR Warranty LIKE @Search OR Problem LIKE @Search OR Assigned_To LIKE @Search OR Status LIKE @Search)";
@@ -538,13 +544,13 @@ public partial class User_home : System.Web.UI.Page
             string orderByClause = "ORDER BY " + columnNames[orderColumn] + " " + orderDir;
 
             // Get total count of records
-            string totalCountQuery = "SELECT COUNT(*) FROM All_Complains WHERE Dealer = @dealer";
+            string totalCountQuery = "SELECT COUNT(*) FROM All_Complaints WHERE Dealer = @dealer";
             SqlCommand cmdTotal = new SqlCommand(totalCountQuery, con);
             cmdTotal.Parameters.AddWithValue("@dealer", dealer);
             int totalRecords = Convert.ToInt32(cmdTotal.ExecuteScalar());
 
             // Get count of filtered records
-            string filteredCountQuery = "SELECT COUNT(*) FROM All_Complains " + whereClause;
+            string filteredCountQuery = "SELECT COUNT(*) FROM All_Complaints " + whereClause;
             SqlCommand cmdFiltered = new SqlCommand(filteredCountQuery, con);
             cmdFiltered.Parameters.AddWithValue("@dealer", dealer);
             if (!string.IsNullOrEmpty(searchValue))
@@ -554,7 +560,7 @@ public partial class User_home : System.Web.UI.Page
             int filteredRecords = Convert.ToInt32(cmdFiltered.ExecuteScalar());
 
             // Fetch data with sorting
-            string dataQuery = "SELECT * FROM All_Complains " + whereClause + " " + orderByClause + " OFFSET @Start ROWS FETCH NEXT @Length ROWS ONLY";
+            string dataQuery = "SELECT * FROM All_Complaints " + whereClause + " " + orderByClause + " OFFSET @Start ROWS FETCH NEXT @Length ROWS ONLY";
             SqlCommand cmdData = new SqlCommand(dataQuery, con);
             cmdData.Parameters.AddWithValue("@Start", start);
             cmdData.Parameters.AddWithValue("@Length", length);

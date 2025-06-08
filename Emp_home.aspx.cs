@@ -21,7 +21,7 @@ public partial class Emp_home : System.Web.UI.Page
         {
             BindProductDropdown();
             BindRepeater();
-            checkRepeatedComplaints();
+            //checkRepeatedComplaints();
         }
         else
         {
@@ -44,7 +44,7 @@ public partial class Emp_home : System.Web.UI.Page
     {
         using (SqlConnection cn = new SqlConnection(connection))
         {
-            string query = "SELECT DISTINCT Product FROM Complain";
+            string query = "SELECT DISTINCT Product FROM All_Complaints WHERE Status = 'New'";
             using (SqlCommand cmd = new SqlCommand(query, cn))
             {
                 cn.Open();
@@ -86,7 +86,7 @@ public partial class Emp_home : System.Web.UI.Page
         {
             using (SqlConnection cn = new SqlConnection(connection))
             {
-                string query = "SELECT * FROM Complain WHERE 1=1";
+                string query = "SELECT * FROM All_Complaints WHERE Status = 'New' AND 1=1";
 
                 // Get all selected values
                 string selectedProducts = Request.Form[ddlProductFilter.UniqueID];
@@ -118,7 +118,7 @@ public partial class Emp_home : System.Web.UI.Page
     protected void RepeaterView()
     {
         SqlConnection cn = new SqlConnection(connection);
-        SqlCommand cm = new SqlCommand("SELECT * FROM Complain", cn);
+        SqlCommand cm = new SqlCommand("SELECT * FROM All_Complaints WHERE Status = 'New' ", cn);
         SqlDataAdapter da = new SqlDataAdapter(cm);
         DataSet ds = new DataSet();
         da.Fill(ds);
@@ -182,23 +182,24 @@ public partial class Emp_home : System.Web.UI.Page
         {
             Label1.Visible = false;
             SqlConnection cn = new SqlConnection(connection);
-            SqlCommand getComplainDetailsCmd = new SqlCommand("SELECT Call_Id , Date , Name , Contact , Address , Product , Company , Warranty , Problem FROM Complain WHERE Call_Id = @id", cn);
-            SqlCommand cm = new SqlCommand("insert into Proc_Complain(Call_Id , Date , Name , Contact , Address , Product , Company , Warranty , Problem , RegisBy , Time , Dealer ) select Call_Id , Date , Name , Contact , Address , Product , Company , Warranty , Problem , RegisBy , Time , Dealer FROM Complain WHERE Call_Id = @id", cn);
-            SqlCommand cm0 = new SqlCommand("insert into All_Complains(Call_Id , Date , Name , Contact , Address , Product , Company , Warranty , Problem , Dealer ) select Call_Id , Date , Name , Contact , Address , Product , Company , Warranty , Problem , Dealer FROM Complain WHERE Call_Id = @id", cn);
-            SqlCommand cm2 = new SqlCommand("update Proc_Complain set Assigned_To = @worker WHERE Call_Id = @id", cn);
-            SqlCommand cm00 = new SqlCommand("update All_Complains set Assigned_To = @worker WHERE Call_Id = @id", cn);
-            SqlCommand cm5 = new SqlCommand("update All_Complains set Status = @ip where Call_Id = @id", cn);
-            SqlCommand cm3 = new SqlCommand("delete from Complain WHERE Call_Id = @id", cn);
-            SqlCommand getNum = new SqlCommand("select Number FROM Worker WHERE Username = @worker", cn);
+            SqlCommand getComplainDetailsCmd = new SqlCommand("SELECT Call_Id , Date , Name , Contact , Address , Product , Company , Warranty , Problem FROM All_Complaints WHERE Status = 'New' AND Call_Id = @id", cn);
+            //SqlCommand cm = new SqlCommand("insert into Proc_Complain(Call_Id , Date , Name , Contact , Address , Product , Company , Warranty , Problem , RegisBy , Time , Dealer ) select Call_Id , Date , Name , Contact , Address , Product , Company , Warranty , Problem , RegisBy , Time , Dealer FROM Complain WHERE Call_Id = @id", cn);
+            SqlCommand cm = new SqlCommand("UPDATE All_Complaints SET Status = 'In Process', Assigned_To = @worker WHERE Call_Id = @id",cn);
+            //SqlCommand cm0 = new SqlCommand("insert into All_Complains(Call_Id , Date , Name , Contact , Address , Product , Company , Warranty , Problem , Dealer ) select Call_Id , Date , Name , Contact , Address , Product , Company , Warranty , Problem , Dealer FROM Complain WHERE Call_Id = @id", cn);
+            //SqlCommand cm2 = new SqlCommand("UPDATE All_Complaints set Assigned_To = @worker WHERE Call_Id = @id", cn);
+            //SqlCommand cm00 = new SqlCommand("update All_Complains set Assigned_To = @worker WHERE Call_Id = @id", cn);
+            //SqlCommand cm5 = new SqlCommand("update All_Complains set Status = @ip where Call_Id = @id", cn);
+            //SqlCommand cm3 = new SqlCommand("delete from Complain WHERE Call_Id = @id", cn);
+            SqlCommand getNum = new SqlCommand("SELECT Number FROM Worker WHERE Username = @worker", cn);
             cm.Parameters.AddWithValue("@id", callId);
-            cm0.Parameters.AddWithValue("@id", callId);
-            cm00.Parameters.AddWithValue("@worker", selectedWorkerUsername);
-            cm2.Parameters.AddWithValue("@worker", selectedWorkerUsername);
-            cm00.Parameters.AddWithValue("@id", callId);
-            cm2.Parameters.AddWithValue("@id", callId);
-            cm5.Parameters.AddWithValue("@id", callId);
-            cm5.Parameters.AddWithValue("@ip", "In Process");
-            cm3.Parameters.AddWithValue("@id", callId);
+            //cm0.Parameters.AddWithValue("@id", callId);
+            //cm00.Parameters.AddWithValue("@worker", selectedWorkerUsername);
+            cm.Parameters.AddWithValue("@worker", selectedWorkerUsername);
+            //cm00.Parameters.AddWithValue("@id", callId);
+            //cm2.Parameters.AddWithValue("@id", callId);
+            //cm5.Parameters.AddWithValue("@id", callId);
+            //cm5.Parameters.AddWithValue("@ip", "In Process");
+            //cm3.Parameters.AddWithValue("@id", callId);
             getComplainDetailsCmd.Parameters.AddWithValue("@id", callId);
             getNum.Parameters.AddWithValue("@worker", selectedWorkerUsername);
             cn.Open();
@@ -220,12 +221,12 @@ public partial class Emp_home : System.Web.UI.Page
                 Label7.Text = complainDetails;
             }
             reader.Close();
-            cm0.ExecuteNonQuery();
-            cm00.ExecuteNonQuery();
-            cm5.ExecuteNonQuery();
+            //cm0.ExecuteNonQuery();
+            //cm00.ExecuteNonQuery();
+            //cm5.ExecuteNonQuery();
             cm.ExecuteNonQuery();
-            cm2.ExecuteNonQuery();
-            cm3.ExecuteNonQuery();
+            //cm2.ExecuteNonQuery();
+            //cm3.ExecuteNonQuery();
             string phnum = (string)getNum.ExecuteScalar();
             Label8.Text = phnum;
             div1.Visible = true;
@@ -272,15 +273,15 @@ public partial class Emp_home : System.Web.UI.Page
         string oldCallId = TextBox2.Text;
         ViewState["OldCallId"] = oldCallId;
         SqlConnection cn = new SqlConnection(connection);
-        SqlCommand cm = new SqlCommand("UPDATE Complain SET Call_Id = @newid WHERE Call_Id = @oldid", cn);
+        SqlCommand cm = new SqlCommand("UPDATE All_Complaints SET Call_Id = @newid WHERE Call_Id = @oldid", cn);
         cm.Parameters.AddWithValue("@newid", TextBox3.Text);
         cm.Parameters.AddWithValue("@oldid", oldCallId);
-        SqlCommand cm2 = new SqlCommand("SELECT * FROM Complain WHERE Call_Id = @oldid", cn);
+        SqlCommand cm2 = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_Id = @oldid", cn);
         cm2.Parameters.AddWithValue("@oldid", oldCallId);
-        SqlCommand cm3 = new SqlCommand("SELECT * FROM Complain WHERE Call_Id = @newid", cn);
+        SqlCommand cm3 = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_Id = @newid", cn);
         cm3.Parameters.AddWithValue("@newid", TextBox3.Text);
-        SqlCommand cm4 = new SqlCommand("SELECT * FROM All_Complains WHERE Call_Id = @newid", cn);
-        cm4.Parameters.AddWithValue("@newid", TextBox3.Text);
+        //SqlCommand cm4 = new SqlCommand("SELECT * FROM All_Complains WHERE Call_Id = @newid", cn);
+        //cm4.Parameters.AddWithValue("@newid", TextBox3.Text);
 
         SqlDataAdapter da = new SqlDataAdapter(cm2);
         DataSet ds = new DataSet();
@@ -290,9 +291,9 @@ public partial class Emp_home : System.Web.UI.Page
         DataSet ds2 = new DataSet();
         da2.Fill(ds2);
 
-        SqlDataAdapter da3 = new SqlDataAdapter(cm4);
-        DataSet ds3 = new DataSet();
-        da3.Fill(ds3);
+        //SqlDataAdapter da3 = new SqlDataAdapter(cm4);
+        //DataSet ds3 = new DataSet();
+        //da3.Fill(ds3);
 
         cn.Open();
         if (TextBox2.Text == "")
@@ -309,7 +310,7 @@ public partial class Emp_home : System.Web.UI.Page
             Label6.Visible = false;
             TextBox2.Text = oldCallId;
         }
-        else if (ds2.Tables[0].Rows.Count > 0 || ds3.Tables[0].Rows.Count > 0)
+        else if (ds2.Tables[0].Rows.Count > 0/* || ds3.Tables[0].Rows.Count > 0*/)
         {
             Label5.Text = "New Call Id already exists";
             Label5.Visible = true;
@@ -333,27 +334,27 @@ public partial class Emp_home : System.Web.UI.Page
         }
         cn.Close();
     }
-    protected void Button6_Click(object sender, EventArgs e)
-    {
-        // Get the Call_Id from the CommandArgument (passed from the button inside the GridView)
-        Button button = (Button)sender;
-        string callId = button.CommandArgument.ToString();
+    //protected void Button6_Click(object sender, EventArgs e)
+    //{
+    //    // Get the Call_Id from the CommandArgument (passed from the button inside the GridView)
+    //    Button button = (Button)sender;
+    //    string callId = button.CommandArgument.ToString();
 
-        // Perform the delete operation
-        DeleteCallById(callId);
-    }
+    //    // Perform the delete operation
+    //    DeleteCallById(callId);
+    //}
 
-    private void DeleteCallById(string callId)
-    {
-        string query = "DELETE FROM Complain WHERE Call_Id = @CallId";
-        SqlConnection cn = new SqlConnection(connection);
-        SqlCommand cm = new SqlCommand(query, cn);
-        cm.Parameters.AddWithValue("@CallId", callId);
-        cn.Open();
-        cm.ExecuteNonQuery();
-        RepeaterView();
-        cn.Close();
-    }
+    //private void DeleteCallById(string callId)
+    //{
+    //    string query = "DELETE FROM Complain WHERE Call_Id = @CallId";
+    //    SqlConnection cn = new SqlConnection(connection);
+    //    SqlCommand cm = new SqlCommand(query, cn);
+    //    cm.Parameters.AddWithValue("@CallId", callId);
+    //    cn.Open();
+    //    cm.ExecuteNonQuery();
+    //    RepeaterView();
+    //    cn.Close();
+    //}
     protected void LinkButton1_Click(object sender, EventArgs e)
     {
         // Get the LinkButton that was clicked
@@ -393,31 +394,31 @@ public partial class Emp_home : System.Web.UI.Page
             {
                 string callId = ((HiddenField)item.FindControl("HiddenField_CallId")).Value;
 
-                SqlCommand getComplainDetailsCmd = new SqlCommand("SELECT Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem FROM Complain WHERE Call_Id = @id", cn);
+                SqlCommand getComplainDetailsCmd = new SqlCommand("SELECT Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem FROM All_Complaints WHERE Call_Id = @id", cn);
                 getComplainDetailsCmd.Parameters.AddWithValue("@id", callId);
 
-                SqlCommand cm = new SqlCommand("INSERT INTO Proc_Complain(Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, RegisBy, Time, Dealer) " +
-                                               "SELECT Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, RegisBy , Time , Dealer FROM Complain WHERE Call_Id = @id", cn);
-                cm.Parameters.AddWithValue("@id", callId);
+                //SqlCommand cm = new SqlCommand("INSERT INTO Proc_Complain(Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, RegisBy, Time, Dealer) " +
+                //                               "SELECT Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, RegisBy , Time , Dealer FROM Complain WHERE Call_Id = @id", cn);
+                //cm.Parameters.AddWithValue("@id", callId);
 
-                SqlCommand cm0 = new SqlCommand("INSERT INTO All_Complains(Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem , Dealer) " +
-                                                "SELECT Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, Dealer FROM Complain WHERE Call_Id = @id", cn);
-                cm0.Parameters.AddWithValue("@id", callId);
+                //SqlCommand cm0 = new SqlCommand("INSERT INTO All_Complains(Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem , Dealer) " +
+                //                                "SELECT Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, Dealer FROM Complain WHERE Call_Id = @id", cn);
+                //cm0.Parameters.AddWithValue("@id", callId);
 
-                SqlCommand cm2 = new SqlCommand("UPDATE Proc_Complain SET Assigned_To = @worker WHERE Call_Id = @id", cn);
+                SqlCommand cm2 = new SqlCommand("UPDATE All_Complaints SET Status = 'In Process', Assigned_To = @worker WHERE Call_Id = @id", cn);
                 cm2.Parameters.AddWithValue("@worker", selectedWorker);
                 cm2.Parameters.AddWithValue("@id", callId);
 
-                SqlCommand cm00 = new SqlCommand("UPDATE All_Complains SET Assigned_To = @worker WHERE Call_Id = @id", cn);
-                cm00.Parameters.AddWithValue("@worker", selectedWorker);
-                cm00.Parameters.AddWithValue("@id", callId);
+                //SqlCommand cm00 = new SqlCommand("UPDATE All_Complains SET Assigned_To = @worker WHERE Call_Id = @id", cn);
+                //cm00.Parameters.AddWithValue("@worker", selectedWorker);
+                //cm00.Parameters.AddWithValue("@id", callId);
 
-                SqlCommand cm5 = new SqlCommand("UPDATE All_Complains SET Status = @status WHERE Call_Id = @id", cn);
-                cm5.Parameters.AddWithValue("@status", "In Process");
-                cm5.Parameters.AddWithValue("@id", callId);
+                //SqlCommand cm5 = new SqlCommand("UPDATE All_Complains SET Status = @status WHERE Call_Id = @id", cn);
+                //cm5.Parameters.AddWithValue("@status", "In Process");
+                //cm5.Parameters.AddWithValue("@id", callId);
 
-                SqlCommand cm3 = new SqlCommand("DELETE FROM Complain WHERE Call_Id = @id", cn);
-                cm3.Parameters.AddWithValue("@id", callId);
+                //SqlCommand cm3 = new SqlCommand("DELETE FROM Complain WHERE Call_Id = @id", cn);
+                //cm3.Parameters.AddWithValue("@id", callId);
 
                 SqlCommand getNum = new SqlCommand("SELECT Number FROM Worker WHERE Username = @worker", cn);
                 getNum.Parameters.AddWithValue("@worker", selectedWorker);
@@ -440,12 +441,12 @@ public partial class Emp_home : System.Web.UI.Page
                 }
                 reader.Close();
 
-                cm.ExecuteNonQuery();
-                cm0.ExecuteNonQuery();
+                //cm.ExecuteNonQuery();
+                //cm0.ExecuteNonQuery();
                 cm2.ExecuteNonQuery();
-                cm00.ExecuteNonQuery();
-                cm5.ExecuteNonQuery();
-                cm3.ExecuteNonQuery();
+                //cm00.ExecuteNonQuery();
+                //cm5.ExecuteNonQuery();
+                //cm3.ExecuteNonQuery();
 
                 string phoneNumber = (string)getNum.ExecuteScalar();
                 if (!string.IsNullOrEmpty(phoneNumber))
@@ -472,7 +473,7 @@ public partial class Emp_home : System.Web.UI.Page
                     window.open(whatsappUrl, '_blank');
                     setTimeout(function() {
                         sendMessage(index + 1);
-                    }, 5000); // 3-second delay between messages
+                    }, 5000); // 5-second delay between messages
                 }
             }
             sendMessage(0);
@@ -491,108 +492,108 @@ public partial class Emp_home : System.Web.UI.Page
         ddlProductFilter.SelectedValue = null;
         RepeaterView();
     }
-    protected void checkRepeatedComplaints()
-    {
-        List<string> repeatedCallIds = new List<string>();
+    //protected void checkRepeatedComplaints()
+    //{
+    //    List<string> repeatedCallIds = new List<string>();
 
-        using (SqlConnection cn = new SqlConnection(connection))
-        {
-            cn.Open();
+    //    using (SqlConnection cn = new SqlConnection(connection))
+    //    {
+    //        cn.Open();
 
-            // Step 1: Get all contacts, products, companies, warranties, and dates from All_Complains
-            SqlCommand cmAll = new SqlCommand("SELECT Contact, Product, Company, Warranty, Date FROM All_Complains", cn);
-            Dictionary<string, List<Tuple<string, string, string, DateTime>>> allComplainsDict = new Dictionary<string, List<Tuple<string, string, string, DateTime>>>();
+    //        // Step 1: Get all contacts, products, companies, warranties, and dates from All_Complains
+    //        SqlCommand cmAll = new SqlCommand("SELECT Contact, Product, Company, Warranty, Date FROM All_Complaints", cn);
+    //        Dictionary<string, List<Tuple<string, string, string, DateTime>>> allComplainsDict = new Dictionary<string, List<Tuple<string, string, string, DateTime>>>();
 
-            using (SqlDataReader drAll = cmAll.ExecuteReader())
-            {
-                while (drAll.Read())
-                {
-                    string contactRaw = drAll["Contact"].ToString();
-                    string product = drAll["Product"].ToString();
-                    string company = drAll["Company"].ToString();
-                    string warranty = drAll["Warranty"].ToString();
-                    string dateStr = drAll["Date"].ToString();
-                    DateTime complaintDate;
+    //        using (SqlDataReader drAll = cmAll.ExecuteReader())
+    //        {
+    //            while (drAll.Read())
+    //            {
+    //                string contactRaw = drAll["Contact"].ToString();
+    //                string product = drAll["Product"].ToString();
+    //                string company = drAll["Company"].ToString();
+    //                string warranty = drAll["Warranty"].ToString();
+    //                string dateStr = drAll["Date"].ToString();
+    //                DateTime complaintDate;
 
-                    if (DateTime.TryParse(dateStr, out complaintDate))
-                    {
-                        string[] contactNumbers = contactRaw.Split(',', ' ', ';');
+    //                if (DateTime.TryParse(dateStr, out complaintDate))
+    //                {
+    //                    string[] contactNumbers = contactRaw.Split(',', ' ', ';');
 
-                        foreach (string contact in contactNumbers)
-                        {
-                            string cleanContact = contact.Trim();
-                            if (cleanContact != "")
-                            {
-                                if (!allComplainsDict.ContainsKey(cleanContact))
-                                    allComplainsDict[cleanContact] = new List<Tuple<string, string, string, DateTime>>();
+    //                    foreach (string contact in contactNumbers)
+    //                    {
+    //                        string cleanContact = contact.Trim();
+    //                        if (cleanContact != "")
+    //                        {
+    //                            if (!allComplainsDict.ContainsKey(cleanContact))
+    //                                allComplainsDict[cleanContact] = new List<Tuple<string, string, string, DateTime>>();
 
-                                allComplainsDict[cleanContact].Add(new Tuple<string, string, string, DateTime>(product, company, warranty, complaintDate));
-                            }
-                        }
-                    }
-                }
-            }
+    //                            allComplainsDict[cleanContact].Add(new Tuple<string, string, string, DateTime>(product, company, warranty, complaintDate));
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        }
 
-            // Step 2: Get contacts, products, companies, warranties, dates, and call ids from Complain table
-            SqlCommand cm = new SqlCommand("SELECT Contact, Product, Company, Warranty, Date, Call_Id FROM Complain", cn);
-            using (SqlDataReader dr = cm.ExecuteReader())
-            {
-                while (dr.Read())
-                {
-                    string contactRaw = dr["Contact"].ToString();
-                    string product = dr["Product"].ToString();
-                    string company = dr["Company"].ToString();
-                    string warranty = dr["Warranty"].ToString();
-                    string dateStr = dr["Date"].ToString();
-                    string callId = dr["Call_Id"].ToString();
-                    DateTime complaintDate;
+    //        // Step 2: Get contacts, products, companies, warranties, dates, and call ids from Complain table
+    //        SqlCommand cm = new SqlCommand("SELECT Contact, Product, Company, Warranty, Date, Call_Id FROM All_Complaints WHERE Status = 'New'", cn);
+    //        using (SqlDataReader dr = cm.ExecuteReader())
+    //        {
+    //            while (dr.Read())
+    //            {
+    //                string contactRaw = dr["Contact"].ToString();
+    //                string product = dr["Product"].ToString();
+    //                string company = dr["Company"].ToString();
+    //                string warranty = dr["Warranty"].ToString();
+    //                string dateStr = dr["Date"].ToString();
+    //                string callId = dr["Call_Id"].ToString();
+    //                DateTime complaintDate;
 
-                    if (DateTime.TryParse(dateStr, out complaintDate))
-                    {
-                        string[] contactNumbers = contactRaw.Split(',', ' ', ';');
+    //                if (DateTime.TryParse(dateStr, out complaintDate))
+    //                {
+    //                    string[] contactNumbers = contactRaw.Split(',', ' ', ';');
 
-                        foreach (string contact in contactNumbers)
-                        {
-                            string cleanContact = contact.Trim();
-                            if (cleanContact != "")
-                            {
-                                if (allComplainsDict.ContainsKey(cleanContact))
-                                {
-                                    foreach (Tuple<string, string, string, DateTime> prev in allComplainsDict[cleanContact])
-                                    {
-                                        if (prev.Item1 == product && prev.Item2 == company && prev.Item3.ToLower() == "in warranty")
-                                        {
-                                            if ((complaintDate - prev.Item4).TotalDays <= 90)
-                                            {
-                                                repeatedCallIds.Add(callId);
-                                                goto SkipRemaining; // break outer loop
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                SkipRemaining: ;
-                }
-            }
-        }
+    //                    foreach (string contact in contactNumbers)
+    //                    {
+    //                        string cleanContact = contact.Trim();
+    //                        if (cleanContact != "")
+    //                        {
+    //                            if (allComplainsDict.ContainsKey(cleanContact))
+    //                            {
+    //                                foreach (Tuple<string, string, string, DateTime> prev in allComplainsDict[cleanContact])
+    //                                {
+    //                                    if (prev.Item1 == product && prev.Item2 == company && prev.Item3.ToLower() == "in warranty")
+    //                                    {
+    //                                        if ((complaintDate - prev.Item4).TotalDays <= 90)
+    //                                        {
+    //                                            repeatedCallIds.Add(callId);
+    //                                            goto SkipRemaining; // break outer loop
+    //                                        }
+    //                                    }
+    //                                }
+    //                            }
+    //                        }
+    //                    }
+    //                }
+    //            SkipRemaining: ;
+    //            }
+    //        }
+    //    }
 
-        // Store in session
-        Session["RepeatedCallIds"] = repeatedCallIds;
-    }
+    //    // Store in session
+    //    Session["RepeatedCallIds"] = repeatedCallIds;
+    //}
     protected void Cancel_Click(object sender, EventArgs e)
     {
         DateTime datee = DateTime.Now.Date;
         string cudate = datee.ToString("yyyy-MM-dd");
         string callId = TextBox1.Text.Trim();
         SqlConnection cn = new SqlConnection(connection);
-        SqlCommand cm0 = new SqlCommand("SELECT * FROM All_Complains WHERE Call_Id = @id", cn);
+        SqlCommand cm0 = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_Id = @id AND Status = 'Done' ", cn);
         cm0.Parameters.AddWithValue("@id", callId);
         SqlDataAdapter da2 = new SqlDataAdapter(cm0);
         DataSet ds2 = new DataSet();
         da2.Fill(ds2);
-        SqlCommand cm = new SqlCommand("SELECT * FROM Complain WHERE Call_Id = @id", cn);
+        SqlCommand cm = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_Id = @id AND Status = 'New' ", cn);
         cm.Parameters.AddWithValue("@id", callId);
 
         SqlDataAdapter da = new SqlDataAdapter(cm);
@@ -600,7 +601,7 @@ public partial class Emp_home : System.Web.UI.Page
         da.Fill(ds);
         if(ds2.Tables[0].Rows.Count>0)
         {
-            SqlCommand cmdelete = new SqlCommand("DELETE FROM Complain WHERE Call_Id = @id", cn);
+            SqlCommand cmdelete = new SqlCommand("DELETE FROM All_Complaints WHERE Call_Id = @id AND Status = 'New' ", cn);
             cmdelete.Parameters.AddWithValue("@id", callId);
             cn.Open();
             cmdelete.ExecuteNonQuery();
@@ -627,9 +628,11 @@ public partial class Emp_home : System.Web.UI.Page
                     return;
                 }
 
-                SqlCommand cm2 = new SqlCommand(@"INSERT INTO Work_Done(Call_id, Date, CC_Date, Name, Contact, Address, Product, Company, Warranty, Problem, WorkDoneBy, Details, Charges, ToPay, ItemCode, Def_Return) 
-                SELECT Call_Id, Date, @CC_Date, Name, Contact, Address, Product, Company, Warranty, Problem, @WorkDoneBy, @Details, @Charges, @ToPay, @ItemCode, @Def_Return 
-                FROM Complain WHERE Call_Id = @id", cn);
+                //SqlCommand cm2 = new SqlCommand(@"INSERT INTO Work_Done(Call_id, Date, CC_Date, Name, Contact, Address, Product, Company, Warranty, Problem, WorkDoneBy, Details, Charges, ToPay, ItemCode, Def_Return) 
+                //SELECT Call_Id, Date, @CC_Date, Name, Contact, Address, Product, Company, Warranty, Problem, @WorkDoneBy, @Details, @Charges, @ToPay, @ItemCode, @Def_Return 
+                //FROM Complain WHERE Call_Id = @id", cn);
+
+                SqlCommand cm2 = new SqlCommand(@"UPDATE All_Complaints SET Status = 'Done', CC_Date = @CC_Date, Assigned_To = @WorkDoneBy, Details = @Details, Charges = @Charges, ToPay = @ToPay, ItemCode = @ItemCode, Def_Return = @Def_Return WHERE Call_Id = @id", cn);
 
                 cm2.Parameters.AddWithValue("@id", callId);
                 cm2.Parameters.AddWithValue("@CC_Date", cudate);
@@ -640,19 +643,19 @@ public partial class Emp_home : System.Web.UI.Page
                 cm2.Parameters.AddWithValue("@ItemCode", "-");
                 cm2.Parameters.AddWithValue("@Def_Return", "-");
 
-                SqlCommand cm3 = new SqlCommand(@"INSERT INTO All_Complains(Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, Assigned_To, Status) 
-                SELECT Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, @upv, @reason FROM Complain WHERE Call_Id = @id", cn);
-                cm3.Parameters.AddWithValue("@reason", TextBox13.Text.Trim());
-                cm3.Parameters.AddWithValue("@upv", "Cancel");
-                cm3.Parameters.AddWithValue("@id", callId);
+                //SqlCommand cm3 = new SqlCommand(@"INSERT INTO All_Complains(Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, Assigned_To, Status) 
+                //SELECT Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, @upv, @reason FROM Complain WHERE Call_Id = @id", cn);
+                //cm3.Parameters.AddWithValue("@reason", TextBox13.Text.Trim());
+                //cm3.Parameters.AddWithValue("@upv", "Cancel");
+                //cm3.Parameters.AddWithValue("@id", callId);
 
-                SqlCommand cm4 = new SqlCommand("DELETE FROM Complain WHERE Call_id = @id", cn);
-                cm4.Parameters.AddWithValue("@id", callId);
+                //SqlCommand cm4 = new SqlCommand("DELETE FROM Complain WHERE Call_id = @id", cn);
+                //cm4.Parameters.AddWithValue("@id", callId);
 
                 cn.Open();
                 cm2.ExecuteNonQuery();
-                cm3.ExecuteNonQuery();
-                cm4.ExecuteNonQuery();
+                //cm3.ExecuteNonQuery();
+                //cm4.ExecuteNonQuery();
                 cn.Close();
 
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "showModal", "document.getElementById('cancelModal').style.display='block';", true);

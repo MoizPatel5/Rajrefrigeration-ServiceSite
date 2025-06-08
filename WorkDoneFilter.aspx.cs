@@ -42,7 +42,7 @@ public partial class WorkDoneFilter : System.Web.UI.Page
             string warranty = DropDownList3.SelectedValue;
             string product = Request.Form[DropDownList4.UniqueID];
 
-            string query = "SELECT * FROM Work_Done WHERE 1=1";
+            string query = "SELECT * FROM All_Complaints WHERE Status = 'Done' AND 1=1";
 
             List<SqlParameter> parameters = new List<SqlParameter>();
 
@@ -60,7 +60,7 @@ public partial class WorkDoneFilter : System.Web.UI.Page
             }
             if (!string.IsNullOrEmpty(worker))
             {
-                query += " AND WorkDoneBy IN (" + string.Join(",", worker.Split(',').Select((s, i) => "@worker" + i)) + ")";
+                query += " AND Assigned_To IN (" + string.Join(",", worker.Split(',').Select((s, i) => "@worker" + i)) + ")";
                 int x = 0;
                 foreach (var w in worker.Split(','))
                 {

@@ -113,7 +113,7 @@
                     { "data": "Company" },
                     { "data": "Warranty" },
                     { "data": "Problem" },
-                    { "data": "WorkDoneBy" },
+                    { "data": "Assigned_To" },
                     { "data": "Details" },
                     { "data": "Charges" },
                     { "data": "ToPay" },

@@ -119,7 +119,7 @@ public partial class Default2 : System.Web.UI.Page
         cm3.Parameters.AddWithValue("@TransactionDate", cudate);
         cm3.Parameters.AddWithValue("@Call_Id", "-");
         cm3.Parameters.AddWithValue("@Reason", "-");
-        cm3.Parameters.Add("@chrgtkn", "-");
+        cm3.Parameters.AddWithValue("@chrgtkn", "-");
         cn.Open();
 
         SqlDataAdapter da = new SqlDataAdapter(cm2);
@@ -321,7 +321,7 @@ public partial class Default2 : System.Web.UI.Page
         cm3.Parameters.AddWithValue("@rsn", TextBox17.Text);
         cm3.Parameters.AddWithValue("@chtkn", "-");
        
-        SqlCommand cm8 = new SqlCommand("SELECT * FROM All_Complains WHERE Call_Id = @id", cn);
+        SqlCommand cm8 = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_Id = @id", cn);
         cm8.Parameters.AddWithValue("@id", TextBox18.Text);
         SqlDataAdapter da2 = new SqlDataAdapter(cm8);
         DataSet ds2 = new DataSet();

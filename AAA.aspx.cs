@@ -372,14 +372,14 @@ public partial class Demo : System.Web.UI.Page
             cn.Open();
 
             // First DELETE statement for AllOrders
-            SqlCommand cm1 = new SqlCommand("DELETE FROM All_Complains WHERE Date BETWEEN @startdate AND @olddate", cn);
+            SqlCommand cm1 = new SqlCommand("DELETE FROM All_Complaints WHERE Status = 'Done' AND Date BETWEEN @startdate AND @olddate", cn);
             cm1.Parameters.AddWithValue("@startdate", TextBox9.Text);
             cm1.Parameters.AddWithValue("@olddate", TextBox10.Text);
 
             // Second DELETE statement for WorkDone
-            SqlCommand cm2 = new SqlCommand("DELETE FROM Work_Done WHERE Date BETWEEN @startdate AND @olddate", cn);
-            cm2.Parameters.AddWithValue("@startdate", TextBox9.Text);
-            cm2.Parameters.AddWithValue("@olddate", TextBox10.Text);
+            //SqlCommand cm2 = new SqlCommand("DELETE FROM Work_Done WHERE Date BETWEEN @startdate AND @olddate", cn);
+            //cm2.Parameters.AddWithValue("@startdate", TextBox9.Text);
+            //cm2.Parameters.AddWithValue("@olddate", TextBox10.Text);
             if (TextBox9.Text == "" || TextBox10.Text == "")
             {
                 Label14.Visible = true;
@@ -389,7 +389,7 @@ public partial class Demo : System.Web.UI.Page
             else if (TextBox19.Text == "3cS4f5X5se4e5")
             {
                 cm1.ExecuteNonQuery();
-                cm2.ExecuteNonQuery();
+                //cm2.ExecuteNonQuery();
                 Label14.Visible = true;
                 Label14.CssClass = "success-message";
                 Label14.Style.Add("color", "green");
@@ -417,7 +417,7 @@ public partial class Demo : System.Web.UI.Page
     protected void allcomplaintsgridview()
     {
         SqlConnection cn = new SqlConnection(connection);
-        SqlCommand cm = new SqlCommand("SELECT * FROM All_Complains", cn);
+        SqlCommand cm = new SqlCommand("SELECT * FROM All_Complaints", cn);
         cn.Open();
         SqlDataAdapter da = new SqlDataAdapter(cm);
         DataSet ds = new DataSet();
@@ -445,11 +445,15 @@ public partial class Demo : System.Web.UI.Page
     {
         SqlConnection cn = new SqlConnection(connection);
         cn.Open();
-        SqlCommand cm = new SqlCommand("SELECT * FROM All_Complains WHERE Call_Id = @id", cn);
+
+        // Step 1: Get complaint details from unified table
+        SqlCommand cm = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_Id = @id", cn);
         cm.Parameters.AddWithValue("@id", TextBox11.Text);
+
         SqlDataAdapter da = new SqlDataAdapter(cm);
         DataSet ds = new DataSet();
         da.Fill(ds);
+
         SqlDataReader dr = cm.ExecuteReader();
         string status = "";
         if (dr.Read())
@@ -457,39 +461,29 @@ public partial class Demo : System.Web.UI.Page
             status = dr["Status"].ToString();
         }
         dr.Close();
+
+        // Step 2: Identify which field to update
         string updateterm = DropDownList1.SelectedValue;
         string newvalue = "";
-        if (updateterm == "Product")
-        {
-            newvalue = DropDownList2.SelectedValue;
-        }
-        else if (updateterm == "Company")
-        {
-            newvalue = DropDownList3.SelectedValue;
-        }
-        else if (updateterm == "Warranty")
-        {
-            newvalue = DropDownList4.SelectedValue;
-        }
-        else if (updateterm == "Assigned_To")
-        {
-            newvalue = DropDownList5.SelectedValue;
-        }
-        else
-        {
-            newvalue = TextBox12.Text;
-        }
-        SqlCommand cm2 = new SqlCommand("UPDATE All_Complains SET " + updateterm + " = @newvalue WHERE Call_Id = @id", cn);
-        cm2.Parameters.AddWithValue("@newvalue", newvalue);
-        cm2.Parameters.AddWithValue("@id", TextBox11.Text);
+        if (updateterm == "Product") newvalue = DropDownList2.SelectedValue;
+        else if (updateterm == "Company") newvalue = DropDownList3.SelectedValue;
+        else if (updateterm == "Warranty") newvalue = DropDownList4.SelectedValue;
+        else if (updateterm == "Assigned_To") newvalue = DropDownList5.SelectedValue;
+        else newvalue = TextBox12.Text;
 
+        // Validate input
         if (TextBox11.Text == "")
         {
             Label15.Text = "Enter Call Id";
             Label15.Style.Add("color", "red");
             Label15.Visible = true;
         }
-        else if (DropDownList1.SelectedValue != "Product" && DropDownList1.SelectedValue != "Company" && DropDownList1.SelectedValue != "Assigned_To" && DropDownList1.SelectedValue != "Warranty" && TextBox12.Text == "")
+        else if (
+            DropDownList1.SelectedValue != "Product" &&
+            DropDownList1.SelectedValue != "Company" &&
+            DropDownList1.SelectedValue != "Assigned_To" &&
+            DropDownList1.SelectedValue != "Warranty" &&
+            TextBox12.Text == "")
         {
             Label15.Text = "Enter New Value";
             Label15.Style.Add("color", "red");
@@ -497,58 +491,22 @@ public partial class Demo : System.Web.UI.Page
         }
         else if (ds.Tables[0].Rows.Count > 0)
         {
-            if (status == "In Process")
-            {
-                SqlCommand cm3 = new SqlCommand("UPDATE Proc_Complain SET " + updateterm + " = @newvalue WHERE Call_Id = @id", cn);
-                cm3.Parameters.AddWithValue("@newvalue", newvalue);
-                cm3.Parameters.AddWithValue("@id", TextBox11.Text);
+            // Step 3: Adjust column name mapping if needed
+            if (updateterm == "Call_Id") updateterm = "Call_Id"; // consistent
+            else if (updateterm == "Assigned_To") updateterm = "Assigned_To"; // use consistent name in new table
 
-                cm3.ExecuteNonQuery();
-                cm2.ExecuteNonQuery();
-                allcomplaintsgridview();
-                Label15.Text = "Complaint updated successfully";
-                Label15.Style.Add("color", "green");
-                Label15.Visible = true;
-            }
-            else if (status == "Pending")
-            {
-                if (updateterm == "Call_Id")
-                {
-                    updateterm = "Call_id";
-                }
-                SqlCommand cm4 = new SqlCommand("UPDATE Pending_Complain SET " + updateterm + " = @newvalue WHERE Call_id = @id", cn);
-                cm4.Parameters.AddWithValue("@newvalue", newvalue);
-                cm4.Parameters.AddWithValue("@id", TextBox11.Text);
+            // Step 4: Perform single-table update
+            string query = "UPDATE All_Complaints SET " + updateterm + " = @newvalue WHERE Call_Id = @id";
+            SqlCommand updateCmd = new SqlCommand(query, cn);
+            updateCmd.Parameters.AddWithValue("@newvalue", newvalue);
+            updateCmd.Parameters.AddWithValue("@id", TextBox11.Text);
+            updateCmd.ExecuteNonQuery();
 
-                cm4.ExecuteNonQuery();
-                cm2.ExecuteNonQuery();
-                allcomplaintsgridview();
-                Label15.Text = "Complaint updated successfully";
-                Label15.Style.Add("color", "green");
-                Label15.Visible = true;
-            }
-            else
-            {
-                if (updateterm == "Call_Id")
-                {
-                    updateterm = "Call_id";
-                }
-                else if (updateterm == "Assigned_To")
-                {
-                    updateterm = "WorkDoneBy";
-                }
-                SqlCommand cm5 = new SqlCommand("UPDATE Work_Done SET " + updateterm + " = @newvalue WHERE Call_id = @id", cn);
-                cm5.Parameters.AddWithValue("@newvalue", newvalue);
-                cm5.Parameters.AddWithValue("@id", TextBox11.Text);
+            allcomplaintsgridview();
 
-                cm5.ExecuteNonQuery();
-                cm2.ExecuteNonQuery();
-                allcomplaintsgridview();
-                Label15.Text = "Complaint updated successfully";
-                Label15.Style.Add("color", "green");
-                Label15.Visible = true;
-            }
-
+            Label15.Text = "Complaint updated successfully";
+            Label15.Style.Add("color", "green");
+            Label15.Visible = true;
         }
         else
         {
@@ -556,8 +514,10 @@ public partial class Demo : System.Web.UI.Page
             Label15.Style.Add("color", "red");
             Label15.Visible = true;
         }
+
         cn.Close();
     }
+
     protected void Button25_Click(object sender, EventArgs e)
     {
         Label15.Text = "";
@@ -583,33 +543,33 @@ public partial class Demo : System.Web.UI.Page
         cn.Open();
 
         // Get the status of the complaint
-        SqlCommand cmStatus = new SqlCommand("SELECT Status FROM All_Complains WHERE Call_Id = @id", cn);
+        SqlCommand cmStatus = new SqlCommand("SELECT Status FROM All_Complaints WHERE Call_Id = @id", cn);
         cmStatus.Parameters.AddWithValue("@id", TextBox11.Text);
         string status = Convert.ToString(cmStatus.ExecuteScalar());
 
         if (!string.IsNullOrEmpty(status))
         {
-            SqlCommand cmDeleteMain = new SqlCommand("DELETE FROM All_Complains WHERE Call_Id = @id", cn);
+            SqlCommand cmDeleteMain = new SqlCommand("DELETE FROM All_Complaints WHERE Call_Id = @id", cn);
             cmDeleteMain.Parameters.AddWithValue("@id", TextBox11.Text);
             cmDeleteMain.ExecuteNonQuery();
 
-            SqlCommand cmDeleteOther = null;
+            //SqlCommand cmDeleteOther = null;
 
-            if (status == "In Process")
-            {
-                cmDeleteOther = new SqlCommand("DELETE FROM Proc_Complain WHERE Call_Id = @id", cn);
-            }
-            else if (status == "Pending")
-            {
-                cmDeleteOther = new SqlCommand("DELETE FROM Pending_Complain WHERE Call_Id = @id", cn);
-            }
-            else
-            {
-                cmDeleteOther = new SqlCommand("DELETE FROM Work_Done WHERE Call_Id = @id", cn);
-            }
+            //if (status == "In Process")
+            //{
+            //    cmDeleteOther = new SqlCommand("DELETE FROM Proc_Complain WHERE Call_Id = @id", cn);
+            //}
+            //else if (status == "Pending")
+            //{
+            //    cmDeleteOther = new SqlCommand("DELETE FROM Pending_Complain WHERE Call_Id = @id", cn);
+            //}
+            //else
+            //{
+            //    cmDeleteOther = new SqlCommand("DELETE FROM Work_Done WHERE Call_Id = @id", cn);
+            //}
 
-            cmDeleteOther.Parameters.AddWithValue("@id", TextBox11.Text);
-            cmDeleteOther.ExecuteNonQuery();
+            //cmDeleteOther.Parameters.AddWithValue("@id", TextBox11.Text);
+            //cmDeleteOther.ExecuteNonQuery();
 
             Label15.Text = "Complaint deleted successfully";
             Label15.Style.Add("color", "green");
@@ -690,7 +650,7 @@ public partial class Demo : System.Web.UI.Page
     protected void workdonegridview()
     {
         SqlConnection cn = new SqlConnection(connection);
-        SqlCommand cm = new SqlCommand("SELECT * FROM Work_Done", cn);
+        SqlCommand cm = new SqlCommand("SELECT * FROM All_Complaints WHERE Status = 'Done' ", cn);
         cn.Open();
         SqlDataAdapter da = new SqlDataAdapter(cm);
         DataSet ds = new DataSet();
@@ -725,7 +685,7 @@ public partial class Demo : System.Web.UI.Page
     {
         SqlConnection cn = new SqlConnection(connection);
         cn.Open();
-        SqlCommand cm = new SqlCommand("SELECT * FROM Work_Done WHERE Call_id = @id", cn);
+        SqlCommand cm = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_id = @id", cn);
         cm.Parameters.AddWithValue("@id", TextBox13.Text);
         SqlDataAdapter da = new SqlDataAdapter(cm);
         DataSet ds = new DataSet();
@@ -740,7 +700,7 @@ public partial class Demo : System.Web.UI.Page
         {
             newvalue = TextBox14.Text;
         }
-        SqlCommand cm2 = new SqlCommand("UPDATE Work_Done SET " + updateterm + " = @newvalue WHERE Call_id = @id ", cn);
+        SqlCommand cm2 = new SqlCommand("UPDATE All_Complaints SET " + updateterm + " = @newvalue WHERE Call_id = @id ", cn);
         cm2.Parameters.AddWithValue("@newvalue", newvalue);
         cm2.Parameters.AddWithValue("@id", TextBox13.Text);
 
@@ -775,7 +735,7 @@ public partial class Demo : System.Web.UI.Page
     private void PerformSearch()
     {
         SqlConnection cn = new SqlConnection(connection);
-        string query = "SELECT * FROM All_Complains WHERE " + DropDownList8.SelectedItem + " LIKE @search";
+        string query = "SELECT * FROM All_Complaints WHERE " + DropDownList8.SelectedItem + " LIKE @search";
         SqlCommand cm = new SqlCommand(query, cn);
         cm.Parameters.AddWithValue("@search", "%" + TextBox15.Text + "%");
         SqlDataAdapter da = new SqlDataAdapter(cm);
@@ -809,7 +769,7 @@ public partial class Demo : System.Web.UI.Page
     private void PerformSearch2()
     {
         SqlConnection cn = new SqlConnection(connection);
-        string query = "SELECT * FROM Work_Done WHERE " + DropDownList9.SelectedItem + " LIKE @search";
+        string query = "SELECT * FROM All_Complaints WHERE Status = 'Done' AND " + DropDownList9.SelectedItem + " LIKE @search";
         SqlCommand cm = new SqlCommand(query, cn);
         cm.Parameters.AddWithValue("@search", "%" + TextBox16.Text + "%");
         SqlDataAdapter da = new SqlDataAdapter(cm);

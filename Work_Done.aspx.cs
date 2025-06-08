@@ -39,18 +39,18 @@ public partial class Work_Done : System.Web.UI.Page
     {
         string callId = HiddenFieldCallId.Value;
         SqlConnection cn = new SqlConnection(connection);
-        SqlCommand cm = new SqlCommand("SELECT * FROM Work_Done WHERE Call_id = @id", cn);
+        SqlCommand cm = new SqlCommand("SELECT * FROM All_Complaints WHERE Status = 'Done' AND Call_id = @id", cn);
         cm.Parameters.AddWithValue("@id", txtNewCallId.Text.Trim());
-        SqlCommand cm2 = new SqlCommand("SELECT * FROM All_Complains WHERE Call_Id = @id", cn);
-        cm2.Parameters.AddWithValue("@id", txtNewCallId.Text.Trim());
+        //SqlCommand cm2 = new SqlCommand("SELECT * FROM All_Complains WHERE Call_Id = @id", cn);
+        //cm2.Parameters.AddWithValue("@id", txtNewCallId.Text.Trim());
 
         SqlDataAdapter da = new SqlDataAdapter(cm);
         DataSet ds = new DataSet();
         da.Fill(ds);
 
-        SqlDataAdapter da2 = new SqlDataAdapter(cm2);
-        DataSet ds2 = new DataSet();
-        da2.Fill(ds2);
+        //SqlDataAdapter da2 = new SqlDataAdapter(cm2);
+        //DataSet ds2 = new DataSet();
+        //da2.Fill(ds2);
 
         if (string.IsNullOrEmpty(txtNewCallId.Text))
         {
@@ -59,7 +59,7 @@ public partial class Work_Done : System.Web.UI.Page
             txtOldCallId.Text = callId;
             HiddenPopupState.Value = "Open";
         }
-        else if (ds.Tables[0].Rows.Count > 0 || ds2.Tables[0].Rows.Count > 0)
+        else if (ds.Tables[0].Rows.Count > 0 /*|| ds2.Tables[0].Rows.Count > 0*/)
         {
             Label2.Text = "Call Id already exists";
             Label2.Visible = true;
@@ -75,15 +75,15 @@ public partial class Work_Done : System.Web.UI.Page
         }
         else
         {
-            SqlCommand cm3 = new SqlCommand("UPDATE All_Complains SET Call_Id = @nid WHERE Call_Id = @oid", cn);
+            SqlCommand cm3 = new SqlCommand("UPDATE All_Complaints SET Call_Id = @nid WHERE Call_Id = @oid", cn);
             cm3.Parameters.AddWithValue("@nid", txtNewCallId.Text.Trim());
             cm3.Parameters.AddWithValue("@oid", callId);
-            SqlCommand cm4 = new SqlCommand("UPDATE Work_Done SET Call_id = @nid WHERE Call_id = @oid", cn);
-            cm4.Parameters.AddWithValue("@nid", txtNewCallId.Text.Trim());
-            cm4.Parameters.AddWithValue("@oid", callId);
+            //SqlCommand cm4 = new SqlCommand("UPDATE Work_Done SET Call_id = @nid WHERE Call_id = @oid", cn);
+            //cm4.Parameters.AddWithValue("@nid", txtNewCallId.Text.Trim());
+            //cm4.Parameters.AddWithValue("@oid", callId);
             cn.Open();
             cm3.ExecuteNonQuery();
-            cm4.ExecuteNonQuery();
+            //cm4.ExecuteNonQuery();
             cn.Close();
             Label2.Visible = false;
             HiddenPopupState.Value = "Close";
@@ -96,11 +96,11 @@ public partial class Work_Done : System.Web.UI.Page
     {
         Class1 obj = new Class1();
         string connection = obj.connectionString();
-        string query = "SELECT Call_id, Date, CC_Date, Name, Contact, Address, Product, Company, Warranty, Problem, WorkDoneBy, Details, Charges, ToPay, ItemCode, Def_Return, Dealer FROM Work_Done WHERE 1=1";
+        string query = "SELECT Call_id, Date, CC_Date, Name, Contact, Address, Product, Company, Warranty, Problem, Assigned_To, Details, Charges, ToPay, ItemCode, Def_Return, Dealer FROM All_Complaints WHERE Status = 'Done' AND 1=1";
 
         if (!string.IsNullOrEmpty(searchValue))
         {
-            query += " AND (Call_id LIKE @Search OR CC_Date LIKE @Search OR Name LIKE @Search OR Contact LIKE @Search OR Date LIKE @Search OR Product LIKE @Search OR Company LIKE @Search OR Warranty LIKE @Search OR Problem LIKE @Search OR WorkDoneBy LIKE @Search OR Details LIKE @Search OR Address LIKE @Search OR Charges LIKE @Search OR ToPay LIKE @Search OR ItemCode LIKE @Search OR Def_Return LIKE @Search)";
+            query += " AND (Call_id LIKE @Search OR CC_Date LIKE @Search OR Name LIKE @Search OR Contact LIKE @Search OR Date LIKE @Search OR Product LIKE @Search OR Company LIKE @Search OR Warranty LIKE @Search OR Problem LIKE @Search OR Assigned_To LIKE @Search OR Details LIKE @Search OR Address LIKE @Search OR Charges LIKE @Search OR ToPay LIKE @Search OR ItemCode LIKE @Search OR Def_Return LIKE @Search)";
         }
 
         // Default sorting column
@@ -120,14 +120,14 @@ public partial class Work_Done : System.Web.UI.Page
             conn.Open();
 
             // Get total number of records
-            SqlCommand totalCmd = new SqlCommand("SELECT COUNT(*) FROM Work_Done", conn);
+            SqlCommand totalCmd = new SqlCommand("SELECT COUNT(*) FROM All_Complaints WHERE Status = 'Done' ", conn);
             recordsTotal = (int)totalCmd.ExecuteScalar();
 
             // Get total filtered records
-            string countQuery = "SELECT COUNT(*) FROM Work_Done WHERE 1=1";
+            string countQuery = "SELECT COUNT(*) FROM All_Complaints WHERE Status = 'Done' AND 1=1";
             if (!string.IsNullOrEmpty(searchValue))
             {
-                countQuery += " AND (Call_id LIKE @Search OR CC_Date LIKE @Search OR Name LIKE @Search OR Contact LIKE @Search OR Date LIKE @Search OR Product LIKE @Search OR Company LIKE @Search OR Warranty LIKE @Search OR Problem LIKE @Search OR WorkDoneBy LIKE @Search OR Details LIKE @Search OR Address LIKE @Search OR Charges LIKE @Search OR ToPay LIKE @Search OR ItemCode LIKE @Search OR Def_Return LIKE @Search OR Dealer LIKE @Search)";
+                countQuery += " AND (Call_id LIKE @Search OR CC_Date LIKE @Search OR Name LIKE @Search OR Contact LIKE @Search OR Date LIKE @Search OR Product LIKE @Search OR Company LIKE @Search OR Warranty LIKE @Search OR Problem LIKE @Search OR Assigned_To LIKE @Search OR Details LIKE @Search OR Address LIKE @Search OR Charges LIKE @Search OR ToPay LIKE @Search OR ItemCode LIKE @Search OR Def_Return LIKE @Search OR Dealer LIKE @Search)";
             }
 
             SqlCommand filteredCmd = new SqlCommand(countQuery, conn);
@@ -156,7 +156,7 @@ public partial class Work_Done : System.Web.UI.Page
                         Company = reader["Company"].ToString(),
                         Warranty = reader["Warranty"].ToString(),
                         Problem = reader["Problem"].ToString(),
-                        WorkDoneBy = reader["WorkDoneBy"].ToString(),
+                        Assigned_To = reader["Assigned_To"].ToString(),
                         Details = reader["Details"].ToString(),
                         Charges = reader["Charges"].ToString(),
                         ToPay = reader["ToPay"].ToString(),

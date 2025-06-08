@@ -46,7 +46,7 @@ public partial class Pending_Complains : System.Web.UI.Page
     {
         using (SqlConnection conn = new SqlConnection(connection))
         {
-            string query = "SELECT Call_id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, Assigned_To, Reason, PartPending, Dealer FROM Pending_Complain";
+            string query = "SELECT * FROM All_Complaints WHERE Status = 'Pending'";
             SqlCommand cmd = new SqlCommand(query, conn);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
@@ -71,35 +71,35 @@ public partial class Pending_Complains : System.Web.UI.Page
         SqlConnection cn = new SqlConnection(connection);
 
         // Initial SQL Commands (to be executed after validation)
-        SqlCommand cm0 = new SqlCommand("insert into Work_Done(Call_id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, WorkDoneBy, Dealer) select Call_id, Date, Name, Contact, Address, Product, Company, Warranty, Problem, Assigned_To, Dealer FROM Pending_Complain WHERE Call_id = @id", cn);
-        SqlCommand cm = new SqlCommand("delete from Pending_Complain where Call_id = @id", cn);
-        SqlCommand cm2 = new SqlCommand("select * from Pending_Complain WHERE Call_id = @id", cn);
-        SqlCommand cm3 = new SqlCommand("update All_Complains set status = @done where Call_id = @id", cn);
-        SqlCommand cm4 = new SqlCommand("update Work_Done set Details = @details Where Call_id = @id", cn);
-        SqlCommand cm5 = new SqlCommand("update Work_Done set Charges = @charge WHERE Call_id = @id", cn);
-        SqlCommand cm6 = new SqlCommand("update Work_Done set ToPay = @topay WHERE Call_id = @id", cn);
-        SqlCommand cm06 = new SqlCommand("update Work_Done set CC_Date = @ccdate WHERE Call_id = @id", cn);
-        SqlCommand cm9 = new SqlCommand("update Work_Done set ItemCode = @itmcode WHERE Call_id = @id", cn);
-        SqlCommand cm8 = new SqlCommand("update Work_Done set Def_Return = @defrtn WHERE Call_id = @id", cn);
+        SqlCommand cm0 = new SqlCommand("UPDATE All_Complaints SET Status = 'Done' Details = @details, Charges = @charge, ToPay = @topay, CC_Date = @ccdate, ItemCode = @itmcode, Def_return = @defrtn WHERE Call_id = @id", cn);
+        //SqlCommand cm = new SqlCommand("delete from Pending_Complain where Call_id = @id", cn);
+        SqlCommand cm2 = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_id = @id", cn);
+        //SqlCommand cm3 = new SqlCommand("update All_Complains set status = @done where Call_id = @id", cn);
+        //SqlCommand cm4 = new SqlCommand("update Work_Done set Details = @details Where Call_id = @id", cn);
+        //SqlCommand cm5 = new SqlCommand("update Work_Done set Charges = @charge WHERE Call_id = @id", cn);
+        //SqlCommand cm6 = new SqlCommand("update Work_Done set ToPay = @topay WHERE Call_id = @id", cn);
+        //SqlCommand cm06 = new SqlCommand("update Work_Done set CC_Date = @ccdate WHERE Call_id = @id", cn);
+        //SqlCommand cm9 = new SqlCommand("update Work_Done set ItemCode = @itmcode WHERE Call_id = @id", cn);
+        //SqlCommand cm8 = new SqlCommand("update Work_Done set Def_Return = @defrtn WHERE Call_id = @id", cn);
 
         cn.Open();
         cm0.Parameters.AddWithValue("@id", p1);
-        cm.Parameters.AddWithValue("@id", p1);
+        //cm.Parameters.AddWithValue("@id", p1);
         cm2.Parameters.AddWithValue("@id", p1);
-        cm3.Parameters.AddWithValue("@id", p1);
-        cm3.Parameters.AddWithValue("@done", p2);
-        cm4.Parameters.AddWithValue("@details", p2);
-        cm4.Parameters.AddWithValue("@id", p1);
-        cm5.Parameters.AddWithValue("@charge", p3);
-        cm5.Parameters.AddWithValue("@id", p1);
-        cm6.Parameters.AddWithValue("@topay", p4);
-        cm6.Parameters.AddWithValue("@id", p1);
-        cm06.Parameters.AddWithValue("@ccdate", cudate);
-        cm06.Parameters.AddWithValue("@id", p1);
-        cm9.Parameters.AddWithValue("@itmcode", TextBox11.Text);  // Part code from TextBox11
-        cm9.Parameters.AddWithValue("@id", p1);
-        cm8.Parameters.AddWithValue("@defrtn", DropDownList5.SelectedValue);  // Default return from DropDownList5
-        cm8.Parameters.AddWithValue("@id", p1);
+        //cm3.Parameters.AddWithValue("@id", p1);
+        cm0.Parameters.AddWithValue("@done", p2);
+        cm0.Parameters.AddWithValue("@details", p2);
+        //cm4.Parameters.AddWithValue("@id", p1);
+        cm0.Parameters.AddWithValue("@charge", p3);
+        //cm5.Parameters.AddWithValue("@id", p1);
+        cm0.Parameters.AddWithValue("@topay", p4);
+        //cm6.Parameters.AddWithValue("@id", p1);
+        cm0.Parameters.AddWithValue("@ccdate", cudate);
+        //cm06.Parameters.AddWithValue("@id", p1);
+        cm0.Parameters.AddWithValue("@itmcode", TextBox11.Text);  // Part code from TextBox11
+        //cm9.Parameters.AddWithValue("@id", p1);
+        cm0.Parameters.AddWithValue("@defrtn", DropDownList5.SelectedValue);  // Default return from DropDownList5
+        //cm8.Parameters.AddWithValue("@id", p1);
 
         SqlDataAdapter da = new SqlDataAdapter(cm2);
         DataSet ds = new DataSet();
@@ -196,14 +196,14 @@ public partial class Pending_Complains : System.Web.UI.Page
 
                     // Now execute the remaining queries for Work_Done updates
                     cm0.ExecuteNonQuery();
-                    cm.ExecuteNonQuery();
-                    cm06.ExecuteNonQuery();
-                    cm6.ExecuteNonQuery();
-                    cm4.ExecuteNonQuery();
-                    cm5.ExecuteNonQuery();
-                    cm3.ExecuteNonQuery();
-                    cm9.ExecuteNonQuery();  // Update ItemCode
-                    cm8.ExecuteNonQuery();  // Update Def_Return
+                    //cm.ExecuteNonQuery();
+                    //cm06.ExecuteNonQuery();
+                    //cm6.ExecuteNonQuery();
+                    //cm4.ExecuteNonQuery();
+                    //cm5.ExecuteNonQuery();
+                    //cm3.ExecuteNonQuery();
+                    //cm9.ExecuteNonQuery();  // Update ItemCode
+                    //cm8.ExecuteNonQuery();  // Update Def_Return
 
                     // Final success message
                     Label7.CssClass = "Success";
@@ -221,21 +221,21 @@ public partial class Pending_Complains : System.Web.UI.Page
             else
             {
                 // Handle case when checkbox is unchecked
-                SqlCommand cm10 = new SqlCommand("update Work_Done set ItemCode = @code WHERE Call_id = @id", cn);
+                SqlCommand cm10 = new SqlCommand("update All_Complaints set ItemCode = @code WHERE Call_id = @id", cn);
                 cm10.Parameters.AddWithValue("@code", "-");
                 cm10.Parameters.AddWithValue("@id", p1);
 
-                SqlCommand cm11 = new SqlCommand("update Work_Done set Def_Return = @def WHERE Call_id = @id", cn);
+                SqlCommand cm11 = new SqlCommand("update All_Complaints set Def_Return = @def WHERE Call_id = @id", cn);
                 cm11.Parameters.AddWithValue("@def", "-");
                 cm11.Parameters.AddWithValue("@id", p1);
 
                 cm0.ExecuteNonQuery();
-                cm.ExecuteNonQuery();
-                cm06.ExecuteNonQuery();
-                cm6.ExecuteNonQuery();
-                cm4.ExecuteNonQuery();
-                cm5.ExecuteNonQuery();
-                cm3.ExecuteNonQuery();
+                //cm.ExecuteNonQuery();
+                //cm06.ExecuteNonQuery();
+                //cm6.ExecuteNonQuery();
+                //cm4.ExecuteNonQuery();
+                //cm5.ExecuteNonQuery();
+                //cm3.ExecuteNonQuery();
                 cm10.ExecuteNonQuery();
                 cm11.ExecuteNonQuery();
 
@@ -277,10 +277,10 @@ public partial class Pending_Complains : System.Web.UI.Page
     string callId = TextBox8.Text.Trim();
     using (SqlConnection cn = new SqlConnection(connection))
     {
-        SqlCommand cmCheckNewId = new SqlCommand("SELECT 1 FROM All_Complains WHERE Call_Id = @nid UNION SELECT 1 FROM Pending_Complain WHERE Call_id = @nid UNION SELECT 1 FROM Complain WHERE Call_Id = @nid", cn);
+        SqlCommand cmCheckNewId = new SqlCommand("SELECT 1 FROM All_Complaints WHERE Call_Id = @nid", cn);
         cmCheckNewId.Parameters.AddWithValue("@nid", TextBox9.Text);
 
-        SqlCommand cmCheckOldId = new SqlCommand("SELECT 1 FROM Pending_Complain WHERE Call_id = @oid", cn);
+        SqlCommand cmCheckOldId = new SqlCommand("SELECT 1 FROM All_Complaints WHERE Call_id = @oid", cn);
         cmCheckOldId.Parameters.AddWithValue("@oid", TextBox8.Text);
 
         try
@@ -320,16 +320,16 @@ public partial class Pending_Complains : System.Web.UI.Page
                 return;
             }
 
-            SqlCommand cmUpdateAllComplains = new SqlCommand("UPDATE All_Complains SET Call_Id = @nid WHERE Call_Id = @oid", cn);
+            SqlCommand cmUpdateAllComplains = new SqlCommand("UPDATE All_Complaints SET Call_Id = @nid WHERE Call_Id = @oid", cn);
             cmUpdateAllComplains.Parameters.AddWithValue("@nid", TextBox9.Text);
             cmUpdateAllComplains.Parameters.AddWithValue("@oid", TextBox8.Text);
 
-            SqlCommand cmUpdatePendingComplain = new SqlCommand("UPDATE Pending_Complain SET Call_id = @nid WHERE Call_id = @oid", cn);
-            cmUpdatePendingComplain.Parameters.AddWithValue("@nid", TextBox9.Text);
-            cmUpdatePendingComplain.Parameters.AddWithValue("@oid", TextBox8.Text);
+            //SqlCommand cmUpdatePendingComplain = new SqlCommand("UPDATE Pending_Complain SET Call_id = @nid WHERE Call_id = @oid", cn);
+            //cmUpdatePendingComplain.Parameters.AddWithValue("@nid", TextBox9.Text);
+            //cmUpdatePendingComplain.Parameters.AddWithValue("@oid", TextBox8.Text);
 
             cmUpdateAllComplains.ExecuteNonQuery();
-            cmUpdatePendingComplain.ExecuteNonQuery();
+            //cmUpdatePendingComplain.ExecuteNonQuery();
 
             Label13.Visible = true;
             Label13.Text = "Call Id Updated Successfully";
@@ -351,33 +351,33 @@ public partial class Pending_Complains : System.Web.UI.Page
     }
 }
 
-    protected void Button6_OnCommand(object sender, CommandEventArgs e)
-    {
-        if (e.CommandName == "DeleteRow")
-        {
-            string callId = e.CommandArgument.ToString();  // Get the Call_Id of the row
-            DeleteComplaintById(callId); // Delete the complaint by Call_Id
-        }
-    }
-    private void DeleteComplaintById(string callId)
-    {
-        // Your connection string, and SQL query for deletion
-        string query = "DELETE FROM Pending_Complain WHERE Call_Id = @Call_Id";
-        string query2 = "DELETE FROM All_Complains WHERE Call_Id = @Call_Id AND Status = @stus";
-        using (SqlConnection conn = new SqlConnection(connection))
-        {
-            SqlCommand cmd = new SqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@Call_Id", callId);
-            SqlCommand cmd2 = new SqlCommand(query2, conn);
-            cmd2.Parameters.AddWithValue("@Call_Id", callId);
-            cmd2.Parameters.AddWithValue("@stus", "Pending");
-            conn.Open();
-            cmd.ExecuteNonQuery();
-            cmd2.ExecuteNonQuery();
-            conn.Close();
-            BindRepeater();
-        }
-    }
+    //protected void Button6_OnCommand(object sender, CommandEventArgs e)
+    //{
+    //    if (e.CommandName == "DeleteRow")
+    //    {
+    //        string callId = e.CommandArgument.ToString();  // Get the Call_Id of the row
+    //        DeleteComplaintById(callId); // Delete the complaint by Call_Id
+    //    }
+    //}
+    //private void DeleteComplaintById(string callId)
+    //{
+    //    // Your connection string, and SQL query for deletion
+    //    string query = "DELETE FROM Pending_Complain WHERE Call_Id = @Call_Id";
+    //    string query2 = "DELETE FROM All_Complains WHERE Call_Id = @Call_Id AND Status = @stus";
+    //    using (SqlConnection conn = new SqlConnection(connection))
+    //    {
+    //        SqlCommand cmd = new SqlCommand(query, conn);
+    //        cmd.Parameters.AddWithValue("@Call_Id", callId);
+    //        SqlCommand cmd2 = new SqlCommand(query2, conn);
+    //        cmd2.Parameters.AddWithValue("@Call_Id", callId);
+    //        cmd2.Parameters.AddWithValue("@stus", "Pending");
+    //        conn.Open();
+    //        cmd.ExecuteNonQuery();
+    //        cmd2.ExecuteNonQuery();
+    //        conn.Close();
+    //        BindRepeater();
+    //    }
+    //}
     protected void LinkButton1_Click(object sender, EventArgs e)
     {
         // Get the LinkButton that was clicked
@@ -400,18 +400,18 @@ public partial class Pending_Complains : System.Web.UI.Page
     protected void validateuser(string p1, string p2)
     {
         SqlConnection cn = new SqlConnection(connection);
-        SqlCommand cm1 = new SqlCommand("UPDATE Pending_Complain SET Assigned_To = @assign WHERE Call_Id = @id", cn);
-        SqlCommand cm0 = new SqlCommand("UPDATE All_Complains SET Assigned_To = @worker WHERE Call_id = @id", cn);
-        SqlCommand cm2 = new SqlCommand("SELECT * FROM Pending_Complain WHERE Call_Id = @id", cn);
-        SqlCommand cmread = new SqlCommand("SELECT Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem FROM Pending_Complain WHERE Call_Id = @id", cn);
+        SqlCommand cm1 = new SqlCommand("UPDATE All_Complaints SET Assigned_To = @assign WHERE Call_Id = @id", cn);
+        //SqlCommand cm0 = new SqlCommand("UPDATE All_Complains SET Assigned_To = @worker WHERE Call_id = @id", cn);
+        SqlCommand cm2 = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_Id = @id", cn);
+        SqlCommand cmread = new SqlCommand("SELECT Call_Id, Date, Name, Contact, Address, Product, Company, Warranty, Problem FROM All_Complaints WHERE Call_Id = @id", cn);
         SqlCommand phnum = new SqlCommand("SELECT Number FROM Worker WHERE Username = @name", cn);
 
         cn.Open();
 
         cm1.Parameters.AddWithValue("@assign", p2);
         cm1.Parameters.AddWithValue("@id", p1);
-        cm0.Parameters.AddWithValue("@worker", p2);
-        cm0.Parameters.AddWithValue("@id", p1);
+        //cm0.Parameters.AddWithValue("@worker", p2);
+        //cm0.Parameters.AddWithValue("@id", p1);
         cm2.Parameters.AddWithValue("@id", p1);
         cmread.Parameters.AddWithValue("@id", p1);
         phnum.Parameters.AddWithValue("@name", p2);
@@ -429,16 +429,16 @@ public partial class Pending_Complains : System.Web.UI.Page
         {
             if (DropDownList4.SelectedValue == "New Complaint")
             {
-                SqlCommand transfer = new SqlCommand("INSERT INTO Complain(Call_Id , Date , Name , Contact , Address , Product , Company , Warranty , Problem , Dealer) SELECT Call_Id , Date , Name , Contact , Address , Product , Company , Warranty , Problem , Dealer FROM Pending_Complain WHERE Call_Id = @id", cn);
+                SqlCommand transfer = new SqlCommand("UPDATE All_Complaints SET Status = 'New',Assigned_To = '' WHERE Call_Id = @id", cn);
                 transfer.Parameters.AddWithValue("@id", p1);
-                SqlCommand deleteinproc = new SqlCommand("DELETE FROM Pending_Complain WHERE Call_Id = @id", cn);
-                deleteinproc.Parameters.AddWithValue("@id", p1);
-                SqlCommand deleteallcomp = new SqlCommand("DELETE FROM All_Complains WHERE Call_Id = @id", cn);
-                deleteallcomp.Parameters.AddWithValue("@id", p1);
+                //SqlCommand deleteinproc = new SqlCommand("DELETE FROM Pending_Complain WHERE Call_Id = @id", cn);
+                //deleteinproc.Parameters.AddWithValue("@id", p1);
+                //SqlCommand deleteallcomp = new SqlCommand("DELETE FROM All_Complains WHERE Call_Id = @id", cn);
+                //deleteallcomp.Parameters.AddWithValue("@id", p1);
 
                 transfer.ExecuteNonQuery();
-                deleteinproc.ExecuteNonQuery();
-                deleteallcomp.ExecuteNonQuery();
+                //deleteinproc.ExecuteNonQuery();
+                //deleteallcomp.ExecuteNonQuery();
                 LabelMessage.Text = "<b><br>Complaint transfered successfully</b>";
                 LabelMessage.Style.Add("color", "green");
                 TextBox2.Text = string.Empty;
@@ -480,7 +480,7 @@ public partial class Pending_Complains : System.Web.UI.Page
 
                 // Update the database with assignment
                 cm1.ExecuteNonQuery();
-                cm0.ExecuteNonQuery();
+                //cm0.ExecuteNonQuery();
                 BindRepeater();
                 // Success message
                 LabelMessage.Text = "<b><br>Complain Re-Assigned Successfully</b>";
@@ -511,7 +511,7 @@ public partial class Pending_Complains : System.Web.UI.Page
         string cudate = datee.ToString("yyyy-MM-dd");
         string callId = TextBox1.Text.Trim();
         SqlConnection cn = new SqlConnection(connection);
-        SqlCommand cm = new SqlCommand("SELECT * FROM Pending_Complain WHERE Call_id = @id", cn);
+        SqlCommand cm = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_Id = @id AND Status = 'Done' ", cn);
         cm.Parameters.AddWithValue("@id", callId);
 
         SqlDataAdapter da = new SqlDataAdapter(cm);
@@ -531,9 +531,10 @@ public partial class Pending_Complains : System.Web.UI.Page
                 return;
             }
 
-            SqlCommand cm2 = new SqlCommand(@"INSERT INTO Work_Done(Call_id, Date, CC_Date, Name, Contact, Address, Product, Company, Warranty, Problem, WorkDoneBy, Details, Charges, ToPay, ItemCode, Def_Return) 
-                SELECT Call_id, Date, @CC_Date, Name, Contact, Address, Product, Company, Warranty, Problem, @WorkDoneBy, @Details, @Charges, @ToPay, @ItemCode, @Def_Return 
-                FROM Pending_Complain WHERE Call_id = @id", cn);
+            //SqlCommand cm2 = new SqlCommand(@"INSERT INTO Work_Done(Call_id, Date, CC_Date, Name, Contact, Address, Product, Company, Warranty, Problem, WorkDoneBy, Details, Charges, ToPay, ItemCode, Def_Return) 
+            //    SELECT Call_id, Date, @CC_Date, Name, Contact, Address, Product, Company, Warranty, Problem, @WorkDoneBy, @Details, @Charges, @ToPay, @ItemCode, @Def_Return 
+            //    FROM Pending_Complain WHERE Call_id = @id", cn);
+            SqlCommand cm2 = new SqlCommand(@"UPDATE All_Complaints SET Status = 'Done', CC_Date = @CC_Date, Assigned_To = @WorkDoneBy, Details = @Details, Charges = @Charges, ToPay = @ToPay, ItemCode = @ItemCode, Def_Return = @Def_Return WHERE Call_Id = @id", cn);
 
             cm2.Parameters.AddWithValue("@id", callId);
             cm2.Parameters.AddWithValue("@CC_Date", cudate);
@@ -544,18 +545,18 @@ public partial class Pending_Complains : System.Web.UI.Page
             cm2.Parameters.AddWithValue("@ItemCode", "-");
             cm2.Parameters.AddWithValue("@Def_Return", "-");
 
-            SqlCommand cm3 = new SqlCommand("DELETE FROM Pending_Complain WHERE Call_id = @id", cn);
-            cm3.Parameters.AddWithValue("@id", callId);
+            //SqlCommand cm3 = new SqlCommand("DELETE FROM Pending_Complain WHERE Call_id = @id", cn);
+            //cm3.Parameters.AddWithValue("@id", callId);
 
-            SqlCommand cm4 = new SqlCommand("UPDATE All_Complains SET Status = @reason, Assigned_To = @cancel WHERE Call_ID = @id", cn);
-            cm4.Parameters.AddWithValue("@cancel", "Cancel");
-            cm4.Parameters.AddWithValue("@reason", TextBox13.Text.Trim());
-            cm4.Parameters.AddWithValue("@id", callId);
+            //SqlCommand cm4 = new SqlCommand("UPDATE All_Complains SET Status = @reason, Assigned_To = @cancel WHERE Call_ID = @id", cn);
+            //cm4.Parameters.AddWithValue("@cancel", "Cancel");
+            //cm4.Parameters.AddWithValue("@reason", TextBox13.Text.Trim());
+            //cm4.Parameters.AddWithValue("@id", callId);
 
             cn.Open();
             cm2.ExecuteNonQuery();
-            cm3.ExecuteNonQuery();
-            cm4.ExecuteNonQuery();
+            //cm3.ExecuteNonQuery();
+            //cm4.ExecuteNonQuery();
             cn.Close();
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "showModal", "document.getElementById('cancelModal').style.display='block';", true);
@@ -589,23 +590,23 @@ public partial class Pending_Complains : System.Web.UI.Page
 
                 if (!string.IsNullOrEmpty(selectedCompany) && !string.IsNullOrEmpty(partPendingOption))
                 {
-                    query = "SELECT * FROM Pending_Complain WHERE Company = @company AND PartPending = @pp";
+                    query = "SELECT * FROM All_Complaints WHERE Status = 'Pending' AND Company = @company AND PartPending = @pp";
                     cm.Parameters.AddWithValue("@company", selectedCompany);
                     cm.Parameters.AddWithValue("@pp", partPendingOption);
                 }
                 else if (!string.IsNullOrEmpty(selectedCompany))
                 {
-                    query = "SELECT * FROM Pending_Complain WHERE Company = @company";
+                    query = "SELECT * FROM All_Complaints WHERE Status = 'Pending' AND Company = @company";
                     cm.Parameters.AddWithValue("@company", selectedCompany);
                 }
                 else if (!string.IsNullOrEmpty(partPendingOption))
                 {
-                    query = "SELECT * FROM Pending_Complain WHERE PartPending = @pp";
+                    query = "SELECT * FROM All_Complaints WHERE Status = 'Pending' AND PartPending = @pp";
                     cm.Parameters.AddWithValue("@pp", partPendingOption);
                 }
                 else
                 {
-                    query = "SELECT * FROM Pending_Complain";
+                    query = "SELECT * FROM All_Complaints WHERE Status = 'Pending' ";
                 }
 
                 cm.CommandText = query;

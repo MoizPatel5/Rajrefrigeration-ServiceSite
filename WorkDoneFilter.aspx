@@ -106,11 +106,11 @@
                     <div class="col">
                         <label class="form-label">Select Worker</label>
                         <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="SqlDataSource1"
-                            DataTextField="Username" DataValueField="Username" CssClass="form-select select2" Multiple="true">
+                            DataTextField="Assigned_To" DataValueField="Assigned_To" CssClass="form-select select2" Multiple="true">
                         </asp:DropDownList>
                         <asp:SqlDataSource ID="SqlDataSource1" runat="server"
                             ConnectionString="<%$ ConnectionStrings:ConnectionString %>"
-                            SelectCommand="SELECT [Username] FROM [Worker]"></asp:SqlDataSource>
+                            SelectCommand="SELECT DISTINCT Assigned_To FROM All_Complaints WHERE Status = 'Done' "></asp:SqlDataSource>
                     </div>
 
                     <!-- Select Company -->
@@ -196,7 +196,7 @@
                                     <td><%# Eval("Company") %></td>
                                     <td><%# Eval("Warranty") %></td>
                                     <td><%# Eval("Problem") %></td>
-                                    <td><%# Eval("WorkDoneBy") %></td>
+                                    <td><%# Eval("Assigned_To") %></td>
                                     <td><%# Eval("Details") %></td>
                                     <td><%# Eval("Charges") %></td>
                                     <td><%# Eval("ToPay") %></td>

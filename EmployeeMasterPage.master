@@ -195,30 +195,30 @@
                 $('#<%= modaldiv.ClientID %>').fadeOut();
             });
         });
-        setInterval(function () {
-            $.ajax({
-                type: "POST",
-                url: "NotificationChecker.aspx/HasUnreadMessages",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    const hasUnread = response.d;
-                    const img = document.getElementById('notifImg');
-                    const dot = document.getElementById('notifDot');
+        //setInterval(function () {
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "NotificationChecker.aspx/HasUnreadMessages",
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "json",
+        //        success: function (response) {
+        //            const hasUnread = response.d;
+        //            const img = document.getElementById('notifImg');
+        //            const dot = document.getElementById('notifDot');
 
-                    if (hasUnread) {
-                        dot.style.display = 'block';
-                        img.classList.add('notif-pulse');
-                    } else {
-                        dot.style.display = 'none';
-                        img.classList.remove('notif-pulse');
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error checking notifications:", error);
-                }
-            });
-        }, 10000); // 10 seconds (10000 milliseconds)
+        //            if (hasUnread) {
+        //                dot.style.display = 'block';
+        //                img.classList.add('notif-pulse');
+        //            } else {
+        //                dot.style.display = 'none';
+        //                img.classList.remove('notif-pulse');
+        //            }
+        //        },
+        //        error: function (xhr, status, error) {
+        //            console.error("Error checking notifications:", error);
+        //        }
+        //    });
+        //}, 10000); // 10 seconds (10000 milliseconds)
 
         function validateMessageForm() {
             var callId = document.getElementById('<%= TextBox17.ClientID %>').value.trim();

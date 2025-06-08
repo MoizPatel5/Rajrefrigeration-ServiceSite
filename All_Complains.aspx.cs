@@ -40,12 +40,12 @@ public partial class All_Complains : System.Web.UI.Page
             string orderByClause = "ORDER BY " + columnNames[orderColumn] + " " + orderDir;
 
             // Get total count of records
-            string totalCountQuery = "SELECT COUNT(*) FROM All_Complains";
+            string totalCountQuery = "SELECT COUNT(*) FROM All_Complaints";
             SqlCommand cmdTotal = new SqlCommand(totalCountQuery, con);
             int totalRecords = Convert.ToInt32(cmdTotal.ExecuteScalar());
 
             // Get count of filtered records
-            string filteredCountQuery = "SELECT COUNT(*) FROM All_Complains " + whereClause;
+            string filteredCountQuery = "SELECT COUNT(*) FROM All_Complaints " + whereClause;
             SqlCommand cmdFiltered = new SqlCommand(filteredCountQuery, con);
             if (!string.IsNullOrEmpty(searchValue))
             {
@@ -54,7 +54,7 @@ public partial class All_Complains : System.Web.UI.Page
             int filteredRecords = Convert.ToInt32(cmdFiltered.ExecuteScalar());
 
             // Fetch data with sorting
-            string dataQuery = "SELECT * FROM All_Complains " + whereClause + " " + orderByClause + " OFFSET @Start ROWS FETCH NEXT @Length ROWS ONLY";
+            string dataQuery = "SELECT * FROM All_Complaints " + whereClause + " " + orderByClause + " OFFSET @Start ROWS FETCH NEXT @Length ROWS ONLY";
             SqlCommand cmdData = new SqlCommand(dataQuery, con);
             cmdData.Parameters.AddWithValue("@Start", start);
             cmdData.Parameters.AddWithValue("@Length", length);
