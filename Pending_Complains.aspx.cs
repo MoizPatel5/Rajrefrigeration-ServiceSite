@@ -511,7 +511,7 @@ public partial class Pending_Complains : System.Web.UI.Page
         string cudate = datee.ToString("yyyy-MM-dd");
         string callId = TextBox1.Text.Trim();
         SqlConnection cn = new SqlConnection(connection);
-        SqlCommand cm = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_Id = @id AND Status = 'Done' ", cn);
+        SqlCommand cm = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_Id = @id AND Status = 'Pending' ", cn);
         cm.Parameters.AddWithValue("@id", callId);
 
         SqlDataAdapter da = new SqlDataAdapter(cm);
