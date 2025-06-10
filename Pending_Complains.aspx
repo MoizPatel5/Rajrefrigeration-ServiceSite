@@ -44,7 +44,7 @@
             <tbody>
                 <asp:Repeater ID="rptComplaints" runat="server">
                     <ItemTemplate>
-                        <tr>
+                        <tr style='<%# Convert.ToBoolean(Eval("isRepeated")) ? "background-color:#fff7b3;" : "" %>'>
                             <td><%# Eval("Call_id") %></td>
                             <td><%# Eval("Date") %></td>
                             <td><%# Eval("Name") %></td>

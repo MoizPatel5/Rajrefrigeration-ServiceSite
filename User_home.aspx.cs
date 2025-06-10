@@ -111,11 +111,11 @@ public partial class User_home : System.Web.UI.Page
             ShowOnlyLabel();
             Label11.Visible = true;
         }
-        //else if (ds.Tables[0].Rows.Count > 0 || ds2.Tables[0].Rows.Count > 0)
-        //{
-        //    ShowOnlyLabel();
-        //    Label2.Visible = true;
-        //}
+        else if (ds2.Tables[0].Rows.Count > 0)
+        {
+            ShowOnlyLabel();
+            Label2.Visible = true;
+        }
         else if (TextBox12.Text == "0")
         {
             string phnumber2 = TextBox12.Text.Trim();
@@ -148,6 +148,7 @@ public partial class User_home : System.Web.UI.Page
             ShowOnlyLabel();
             Label1.Visible = true;
             cm2.ExecuteNonQuery();
+            checkRepeatedComplaints(p1, p4, p2, DropDownList2.SelectedValue, DropDownList3.SelectedValue);
             ClearFields();
             //gridbind();
             //gridbind2();
@@ -198,6 +199,7 @@ public partial class User_home : System.Web.UI.Page
                     ShowOnlyLabel();
                     Label1.Visible = true;
                     cm2.ExecuteNonQuery();
+                    checkRepeatedComplaints(p1, p4, p2, DropDownList2.SelectedValue, DropDownList3.SelectedValue);
                     ClearFields();
                 }
                 else
@@ -213,6 +215,57 @@ public partial class User_home : System.Web.UI.Page
                 ShowOnlyLabel();
                 Label13.Visible = true;  // Show error message for invalid number
             }
+        }
+
+        cn.Close();
+    }
+    public void checkRepeatedComplaints(string callId, string phoneNumber, string date, string product, string company)
+    {
+        SqlConnection cn = new SqlConnection(connection);
+        cn.Open();
+
+        DateTime currentComplaintDate = DateTime.Parse(date);
+
+        // Get the most recent complaint for this phone number before the current one
+        SqlCommand cm = new SqlCommand(@"
+        SELECT TOP 1 Date, Product, Company
+        FROM All_Complaints
+        WHERE Contact = @phoneNumber
+          AND Date < @currentDate
+        ORDER BY Date DESC", cn);
+
+        cm.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+        cm.Parameters.AddWithValue("@currentDate", currentComplaintDate);
+
+        SqlDataReader dr = cm.ExecuteReader();
+
+        bool isRepeated = false;
+
+        if (dr.Read())
+        {
+            DateTime previousDate = Convert.ToDateTime(dr["Date"]);
+            string previousProduct = dr["Product"].ToString();
+            string previousCompany = dr["Company"].ToString();
+
+            // Check if within 90 days
+            if ((currentComplaintDate - previousDate).TotalDays <= 90)
+            {
+                if (previousProduct.Equals(product, StringComparison.OrdinalIgnoreCase) &&
+                    previousCompany.Equals(company, StringComparison.OrdinalIgnoreCase))
+                {
+                    isRepeated = true;
+                }
+            }
+        }
+
+        dr.Close();
+
+        // If repeated, update the current complaint
+        if (isRepeated)
+        {
+            SqlCommand updateCmd = new SqlCommand("UPDATE All_Complaints SET isRepeated = 1 WHERE Call_Id = @id AND Status = 'New'", cn);
+            updateCmd.Parameters.AddWithValue("@id", callId);
+            updateCmd.ExecuteNonQuery();
         }
 
         cn.Close();

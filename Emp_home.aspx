@@ -114,7 +114,7 @@
             <tbody>
                 <asp:Repeater ID="Repeater1" runat="server" DataSourceID="SqlDataSource1" OnItemCommand="Repeater1_ItemCommand">
                     <ItemTemplate>
-                        <tr>
+                        <tr style='<%# Convert.ToBoolean(Eval("isRepeated")) ? "background-color:#fff7b3;" : "" %>'>
                             <td>
                                 <asp:CheckBox ID="CheckBox1" runat="server" />
                                 <asp:HiddenField ID="HiddenField_CallId" runat="server" Value='<%# Eval("Call_Id") %>' />

@@ -185,7 +185,7 @@
                     <tbody>
                         <asp:Repeater ID="rptComplaints" runat="server">
                             <ItemTemplate>
-                                <tr>
+                                <tr style='<%# Convert.ToBoolean(Eval("isRepeated")) ? "background-color:#fff7b3;" : "" %>'>
                                     <td><%# Eval("Call_id") %></td>
                                     <td><%# Eval("Date") %></td>
                                     <td><%# Eval("CC_Date") %></td>
@@ -252,7 +252,7 @@
                     pageLength: 10,
                     dom: '<"top d-flex justify-content-between"lBf>rt<"bottom"ip>',
                     buttons: [
-                        'copy', 'excel', 'csv', {
+                        'excel', {
                             extend: 'pdfHtml5',
                             text: 'PDF',
                             orientation: 'landscape',

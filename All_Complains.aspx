@@ -83,6 +83,11 @@
                         { "data": "Dealer" },
                         { "data": "Status" }
                     ],
+                    "rowCallback": function (row, data, index) {
+                        if (data.isRepeated === 1 || data.isRepeated === true) {
+                            $(row).css("background-color", "#fff7b3"); // light yellow
+                        }
+                    },
                     "orderMulti": false,
                     "lengthMenu": [5, 10, 25, 50, 100],
                     "pageLength": 10,

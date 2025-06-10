@@ -96,7 +96,7 @@ public partial class Work_Done : System.Web.UI.Page
     {
         Class1 obj = new Class1();
         string connection = obj.connectionString();
-        string query = "SELECT Call_id, Date, CC_Date, Name, Contact, Address, Product, Company, Warranty, Problem, Assigned_To, Details, Charges, ToPay, ItemCode, Def_Return, Dealer FROM All_Complaints WHERE Status = 'Done' AND 1=1";
+        string query = "SELECT Call_id, Date, CC_Date, Name, Contact, Address, Product, Company, Warranty, Problem, Assigned_To, Details, Charges, ToPay, ItemCode, Def_Return, Dealer, isRepeated FROM All_Complaints WHERE Status = 'Done' AND 1=1";
 
         if (!string.IsNullOrEmpty(searchValue))
         {
@@ -162,7 +162,8 @@ public partial class Work_Done : System.Web.UI.Page
                         ToPay = reader["ToPay"].ToString(),
                         Dealer = reader["Dealer"].ToString(),
                         ItemCode = reader["ItemCode"].ToString(),
-                        Def_Return = reader["Def_Return"].ToString()
+                        Def_Return = reader["Def_Return"].ToString(),
+                        isRepeated = reader["isRepeated"].ToString()
                     });
                 }
             }

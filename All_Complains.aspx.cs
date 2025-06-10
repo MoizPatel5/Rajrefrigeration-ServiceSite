@@ -83,7 +83,8 @@ public partial class All_Complains : System.Web.UI.Page
                     Problem = row["Problem"],
                     Assigned_To = row["Assigned_To"],
                     Dealer = row["Dealer"],
-                    Status = row["Status"]
+                    Status = row["Status"],
+                    isRepeated = row["isRepeated"]
                 });
             }
 

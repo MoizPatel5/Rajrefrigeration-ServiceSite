@@ -72,7 +72,7 @@
                 <tbody>
                     <asp:Repeater ID="Repeater1" runat="server">
                         <ItemTemplate>
-                            <tr>
+                            <tr style='<%# Convert.ToBoolean(Eval("isRepeated")) ? "background-color:#fff7b3;" : "" %>'>
                                 <td><%# Eval("Call_Id") %></td>
                                 <td><%# Eval("Date", "{0:yyyy-MM-dd}") %></td>
                                 <td><%# Eval("Time") %></td>
