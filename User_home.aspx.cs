@@ -363,7 +363,7 @@ public partial class User_home : System.Web.UI.Page
     {
         SqlConnection cn = new SqlConnection(connection);
         cn.Open();
-        SqlCommand cm = new SqlCommand("SELECT * FROM Complain WHERE Call_Id = @id", cn);
+        SqlCommand cm = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_Id = @id AND Status = 'New' ", cn);
         cm.Parameters.AddWithValue("@id", TextBox6.Text);
         SqlDataAdapter da = new SqlDataAdapter(cm);
         DataSet ds = new DataSet();
@@ -387,7 +387,7 @@ public partial class User_home : System.Web.UI.Page
             newvalue = TextBox7.Text;
         }
 
-        SqlCommand cm2 = new SqlCommand("UPDATE Complain SET " + updateterm + " = @newvalue WHERE Call_Id = @id ", cn);
+        SqlCommand cm2 = new SqlCommand("UPDATE All_Complaints SET " + updateterm + " = @newvalue WHERE Call_Id = @id AND Status = 'New' ", cn);
         cm2.Parameters.AddWithValue("@newvalue", newvalue);
         cm2.Parameters.AddWithValue("@id", TextBox6.Text);
 

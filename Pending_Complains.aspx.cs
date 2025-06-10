@@ -71,7 +71,7 @@ public partial class Pending_Complains : System.Web.UI.Page
         SqlConnection cn = new SqlConnection(connection);
 
         // Initial SQL Commands (to be executed after validation)
-        SqlCommand cm0 = new SqlCommand("UPDATE All_Complaints SET Status = 'Done' Details = @details, Charges = @charge, ToPay = @topay, CC_Date = @ccdate, ItemCode = @itmcode, Def_return = @defrtn WHERE Call_id = @id", cn);
+        SqlCommand cm0 = new SqlCommand("UPDATE All_Complaints SET Status = 'Done', Details = @details, Charges = @charge, ToPay = @topay, CC_Date = @ccdate, ItemCode = @itmcode, Def_return = @defrtn WHERE Call_id = @id", cn);
         //SqlCommand cm = new SqlCommand("delete from Pending_Complain where Call_id = @id", cn);
         SqlCommand cm2 = new SqlCommand("SELECT * FROM All_Complaints WHERE Call_id = @id", cn);
         //SqlCommand cm3 = new SqlCommand("update All_Complains set status = @done where Call_id = @id", cn);
