@@ -27,6 +27,7 @@
                 <tr>
                     <th>Call Id</th>
                     <th>Date</th>
+                    <th>Time</th>
                     <th>Name</th>
                     <th>Contact</th>
                     <th>Address</th>
@@ -35,6 +36,7 @@
                     <th>Warranty</th>
                     <th>Problem</th>
                     <th>Assigned To</th>
+                    <th>Regis By</th>
                     <th>Dealer</th>
                     <th>Reason</th>
                     <th>Part Pending</th>
@@ -47,6 +49,7 @@
                         <tr style='<%# Convert.ToBoolean(Eval("isRepeated")) ? "background-color:#fff7b3;" : "" %>'>
                             <td><%# Eval("Call_id") %></td>
                             <td><%# Eval("Date") %></td>
+                            <td><%# Eval("Time") %></td>
                             <td><%# Eval("Name") %></td>
                             <td><%# Eval("Contact") %></td>
                             <td><%# Eval("Address") %></td>
@@ -55,6 +58,7 @@
                             <td><%# Eval("Warranty") %></td>
                             <td><%# Eval("Problem") %></td>
                             <td><%# Eval("Assigned_To") %></td>
+                            <td><%# Eval("RegisBy") %></td>
                             <td><%# Eval("Dealer") %></td>
                             <td><%# Eval("Reason") %></td>
                             <td><%# Eval("PartPending") %></td>
@@ -241,6 +245,7 @@
             }],
             "drawCallback": function (settings) {
                 var api = this.api();
+                var filteredRows = api.rows({ filter: 'applied' }).nodes();
                 var rowCount = api.rows({ filter: 'applied' }).count();
 
                 if (rowCount === 0) {
@@ -249,6 +254,22 @@
                 } else {
                     $("#complaintsTable tbody").show();
                     $("#noDataDiv").css("display", "none");
+
+                    $(filteredRows).find('td:nth-child(11)').removeClass('highlight-assigned').css({
+                        'color': '',
+                        'font-weight': '',
+                        'font-size': '',
+                        'transition': ''
+                    });
+                    if (rowCount === 1) {
+                        var assignedToCell = $(filteredRows).find('td:nth-child(11)');
+                        assignedToCell.css({
+                            'color': 'red',
+                            'font-weight': '900',        // maximum font weight
+                            'font-size': '1.2em',        // slightly larger text
+                            'transition': 'all 0.3s ease'  // smooth animation
+                        });
+                    }
                 }
             }
         });

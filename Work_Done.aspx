@@ -12,19 +12,34 @@
 
         <!-- Header Section -->
 
-        <center><h1 class="header-text">Work Done</h1></center>
+        <center>
+            <h1 class="header-text">Work Done</h1>
+        </center>
 
-        <asp:linkbutton runat="server" OnClick="Filter_Click"><img src="imgs/filter.png" width="30px" height="30px" title="Filter" style="height: 30px" /></asp:linkbutton>
-        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <!-- Filter Button -->
+            <div>
+                <asp:LinkButton runat="server" OnClick="Filter_Click" Style="border: none; background: none;">
+            <img src="imgs/filter.png" width="30px" height="30px" title="Filter" style="height: 30px;" />
+                </asp:LinkButton>
+            </div>
+
+            <!-- Send Back Button -->
+            <div>
+                <img src="imgs/takeBackOrders.png" width="30px" height="30px" title="Send Back to New Complaints" onclick="showTransferPopup()" style="cursor: pointer;" />
+            </div>
+        </div>
+
         <div style="overflow: auto">
 
             <!-- Main Content Section -->
             <table id="complaintsTable" class="gridview" style="width: 100%">
                 <thead>
                     <tr>
-                        <th>Call_Id</th>
+                        <th>Call Id</th>
                         <th>Date</th>
-                        <th>CC_Date</th>
+                        <th>CC Date</th>
+                        <th>Time</th>
                         <th>Name</th>
                         <th>Contact</th>
                         <th>Address</th>
@@ -34,6 +49,7 @@
                         <th>Problem</th>
                         <th>Work Done By</th>
                         <th>Details</th>
+                        <th>Regis By</th>
                         <th>Charges</th>
                         <th>To Pay</th>
                         <th>Dealer</th>
@@ -66,6 +82,23 @@
             </div>
             <asp:HiddenField ID="HiddenPopupState" runat="server" />
         </div>
+
+        <%--MODAL POPUP to send back the complaint to new compalints--%>
+
+        <!-- Overlay + Popup Container -->
+        <div id="transferPopupOverlay" style="display: none;">
+            <div class="popup-overlay"></div>
+            <div class="popup-box">
+                <h3>Transfer Complaint</h3>
+                Call Id :
+                <asp:TextBox runat="server" ID="callId" ClientIDMode="Static"></asp:TextBox><br />
+                <label id="Label1"></label>
+                <br />
+                <button type="button" class="btn-submit" style="width:49%" onclick="closeTransferPopup()">Cancel</button>
+                <button type="button" class="btn-submit" id="submitBtn" style="width:49%" onclick="transferComplaintClick()" disabled ="disabled">Submit</button>
+            </div>
+        </div>
+
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -106,6 +139,7 @@
                     { "data": "Call_id" },
                     { "data": "Date" },
                     { "data": "CC_Date" },
+                    { "data": "Time" },
                     { "data": "Name" },
                     { "data": "Contact" },
                     { "data": "Address" },
@@ -115,6 +149,7 @@
                     { "data": "Problem" },
                     { "data": "Assigned_To" },
                     { "data": "Details" },
+                    { "data": "RegisBy" },
                     { "data": "Charges" },
                     { "data": "ToPay" },
                     { "data": "Dealer" },
@@ -124,10 +159,10 @@
                         "data": "Call_id",
                         "render": function (data, type, row) {
                             return "<div class='btn-group'>" +
-                                   "<button class='link-btn update-btn' data-id='" + data + "'>" +
-                                   "<img src='imgs/updatecallid.png' alt='Update' title='Update'>" +
-                                   "</button>" +
-                                   "</div>";
+                                "<button class='link-btn update-btn' data-id='" + data + "'>" +
+                                "<img src='imgs/updatecallid.png' alt='Update' title='Update'>" +
+                                "</button>" +
+                                "</div>";
                         }
 
                     }
@@ -163,7 +198,7 @@
                 $("#<%= HiddenFieldCallId.ClientID %>").val(callId);
                 openPopup();
             });
-            
+
         });
         function updateComplaint(callId) {
             event.preventDefault();
@@ -193,10 +228,70 @@
         function openFilterSection() {
             var filterContainer = document.getElementById("filtersection");
             if (filterContainer.style.display === "none" || filterContainer.style.display === "") {
-                filterContainer.style.display = "block"; 
+                filterContainer.style.display = "block";
             } else {
-                filterContainer.style.display = "none"; 
+                filterContainer.style.display = "none";
             }
+        }
+        function showTransferPopup() {
+            document.getElementById("transferPopupOverlay").style.display = "block";
+        }
+
+        function closeTransferPopup() {
+            document.getElementById("transferPopupOverlay").style.display = "none";
+            document.getElementById("callId").value = "";
+            document.getElementById("Label1").innerText = "";
+            document.getElementById("submitBtn").disabled = true;
+        }
+
+        // Enable submit button if callId is filled
+        document.addEventListener("DOMContentLoaded", function () {
+            var callIdInput = document.getElementById("callId");
+            var submitBtn = document.getElementById("submitBtn");
+
+            callIdInput.addEventListener("input", function () {
+                submitBtn.disabled = callIdInput.value.trim() === "";
+            });
+        });
+
+        function transferComplaintClick() {
+            var callId = document.getElementById("callId").value.trim();
+            var errorLabel = document.getElementById("Label1");
+
+            if (callId === "") {
+                errorLabel.innerText = "Enter Call Id.";
+                errorLabel.style.color = "red";
+                return;
+            }
+
+            // Clear previous errors
+            errorLabel.innerText = "";
+
+            // AJAX call
+            $.ajax({
+                type: "POST",
+                url: "Work_Done.aspx/TransferComplaint",
+                data: JSON.stringify({ callId: callId }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response.d === "success") {
+                        errorLabel.style.color = "green";
+                        errorLabel.innerText = "Complaint transferred successfully!";
+                        setTimeout(() => {
+                            closeTransferPopup();
+                            location.reload(); // Optional: refresh page
+                        }, 1200);
+                    } else {
+                        errorLabel.style.color = "red";
+                        errorLabel.innerText = response.d;
+                    }
+                },
+                error: function () {
+                    errorLabel.style.color = "red";
+                    errorLabel.innerText = "An error occurred. Please try again.";
+                }
+            });
         }
 
     </script>

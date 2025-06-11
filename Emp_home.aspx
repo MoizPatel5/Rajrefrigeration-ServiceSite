@@ -96,7 +96,7 @@
             <thead>
                 <tr>
                     <th>Select Complaints</th>
-                    <th>Call_Id</th>
+                    <th>Call Id</th>
                     <th>Date</th>
                     <th>Time</th>
                     <th>Name</th>
@@ -106,7 +106,7 @@
                     <th>Company</th>
                     <th>Warranty</th>
                     <th>Problem</th>
-                    <th>RegisBy</th>
+                    <th>Regis By</th>
                     <th>Dealer</th>
                     <th>Manage Complaints</th>
                 </tr>

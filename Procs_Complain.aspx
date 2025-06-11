@@ -24,7 +24,7 @@
             <table id="dataTable" class="gridview" style="width: 100%;">
                 <thead>
                     <tr>
-                        <th>Call_Id</th>
+                        <th>Call Id</th>
                         <th>Date</th>
                         <th>Time</th>
                         <th>Name</th>
@@ -34,8 +34,8 @@
                         <th>Company</th>
                         <th>Warranty</th>
                         <th>Problem</th>
-                        <th>Assigned_To</th>
-                        <th>RegisBy</th>
+                        <th>Assigned To</th>
+                        <th>Regis By</th>
                         <th>Dealer</th>
                         <th>Actions</th>
                     </tr>
@@ -315,6 +315,7 @@
                 },
                 "drawCallback": function (settings) {
                     var api = this.api();
+                    var filteredRows = api.rows({ filter: 'applied' }).nodes();
                     var rowCount = api.rows({ filter: 'applied' }).count();
 
                     if (rowCount === 0) {
@@ -323,6 +324,25 @@
                     } else {
                         $("#dataTable tbody").show();
                         $("#noDataDiv").css("display", "none");
+
+                        // Reset previously styled Assigned_To columns
+                        $(filteredRows).find('td:nth-child(11)').css({
+                            'color': '',
+                            'font-weight': '',
+                            'font-size': '',          // reset font size to default
+                            'transition': ''    
+                        });
+
+                        // If only one row is found, style its Assigned_To column
+                        if (rowCount === 1) {
+                            var assignedToCell = $(filteredRows).find('td:nth-child(11)');
+                            assignedToCell.css({
+                                'color': 'red',
+                                'font-weight': '900',        // maximum font weight
+                                'font-size': '1.2em',        // slightly larger text
+                                'transition': 'all 0.3s ease'  // smooth animation
+                            });
+                        }
                     }
                 }
             });

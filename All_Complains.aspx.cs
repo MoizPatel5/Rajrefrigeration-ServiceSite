@@ -32,7 +32,7 @@ public partial class All_Complains : System.Web.UI.Page
             string whereClause = "";
             if (!string.IsNullOrEmpty(searchValue))
             {
-                whereClause = "WHERE Call_Id LIKE @Search OR Date LIKE @Search OR Name LIKE @Search OR Contact LIKE @Search OR Address LIKE @Search OR Product LIKE @Search OR Company LIKE @Search OR Warranty LIKE @Search OR Problem LIKE @Search OR Assigned_To LIKE @Search OR Status LIKE @Search OR Dealer LIKE @Search";
+                whereClause = "WHERE Call_Id LIKE @Search OR Date LIKE @Search OR Time LIKE @Search OR Name LIKE @Search OR Contact LIKE @Search OR Address LIKE @Search OR Product LIKE @Search OR Company LIKE @Search OR Warranty LIKE @Search OR Problem LIKE @Search OR Assigned_To LIKE @Search OR Status LIKE @Search OR RegisBy LIKE @Search OR Dealer LIKE @Search";
             }
 
             // Sorting columns (adjust column names based on DataTable)
@@ -74,6 +74,7 @@ public partial class All_Complains : System.Web.UI.Page
                 {
                     Call_Id = row["Call_Id"],
                     Date = row["Date"],
+                    Time = row["Time"],
                     Name = row["Name"],
                     Contact = row["Contact"],
                     Address = row["Address"],
@@ -82,6 +83,7 @@ public partial class All_Complains : System.Web.UI.Page
                     Warranty = row["Warranty"],
                     Problem = row["Problem"],
                     Assigned_To = row["Assigned_To"],
+                    RegisBy = row["RegisBy"],
                     Dealer = row["Dealer"],
                     Status = row["Status"],
                     isRepeated = row["isRepeated"]

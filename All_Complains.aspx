@@ -14,8 +14,9 @@
         <table id="complaintsTable" class="gridview" style="width: 100%">
             <thead>
                 <tr>
-                    <th>Call_Id</th>
+                    <th>Call Id</th>
                     <th>Date</th>
+                    <th>Time</th>
                     <th>Name</th>
                     <th>Contact</th>
                     <th>Address</th>
@@ -23,7 +24,8 @@
                     <th>Company</th>
                     <th>Warranty</th>
                     <th>Problem</th>
-                    <th>Assigned_To</th>
+                    <th>Assigned To</th>
+                    <th>Regis By</th>
                     <th>Dealer</th>
                     <th>Status</th>
                 </tr>
@@ -72,6 +74,7 @@
                     "columns": [
                         { "data": "Call_Id" },
                         { "data": "Date" },
+                        { "data": "Time" },
                         { "data": "Name" },
                         { "data": "Contact" },
                         { "data": "Address" },
@@ -80,6 +83,7 @@
                         { "data": "Warranty" },
                         { "data": "Problem" },
                         { "data": "Assigned_To" },
+                        { "data": "RegisBy" },
                         { "data": "Dealer" },
                         { "data": "Status" }
                     ],

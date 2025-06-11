@@ -96,11 +96,11 @@ public partial class Work_Done : System.Web.UI.Page
     {
         Class1 obj = new Class1();
         string connection = obj.connectionString();
-        string query = "SELECT Call_id, Date, CC_Date, Name, Contact, Address, Product, Company, Warranty, Problem, Assigned_To, Details, Charges, ToPay, ItemCode, Def_Return, Dealer, isRepeated FROM All_Complaints WHERE Status = 'Done' AND 1=1";
+        string query = "SELECT * FROM All_Complaints WHERE Status = 'Done' AND 1=1";
 
         if (!string.IsNullOrEmpty(searchValue))
         {
-            query += " AND (Call_id LIKE @Search OR CC_Date LIKE @Search OR Name LIKE @Search OR Contact LIKE @Search OR Date LIKE @Search OR Product LIKE @Search OR Company LIKE @Search OR Warranty LIKE @Search OR Problem LIKE @Search OR Assigned_To LIKE @Search OR Details LIKE @Search OR Address LIKE @Search OR Charges LIKE @Search OR ToPay LIKE @Search OR ItemCode LIKE @Search OR Def_Return LIKE @Search)";
+            query += " AND (Call_id LIKE @Search OR CC_Date LIKE @Search OR Time LIKE @Search OR Name LIKE @Search OR Contact LIKE @Search OR Date LIKE @Search OR Product LIKE @Search OR Company LIKE @Search OR Warranty LIKE @Search OR Problem LIKE @Search OR Assigned_To LIKE @Search OR Details LIKE @Search OR Address LIKE @Search OR RegisBy LIKE @Search OR Charges LIKE @Search OR ToPay LIKE @Search OR ItemCode LIKE @Search OR Def_Return LIKE @Search)";
         }
 
         // Default sorting column
@@ -149,6 +149,7 @@ public partial class Work_Done : System.Web.UI.Page
                         Call_id = reader["Call_id"].ToString(),
                         Date = reader["Date"].ToString(),
                         CC_Date = reader["CC_Date"].ToString(),
+                        Time = reader["Time"].ToString(),
                         Name = reader["Name"].ToString(),
                         Contact = reader["Contact"].ToString(),
                         Address = reader["Address"].ToString(),
@@ -158,6 +159,7 @@ public partial class Work_Done : System.Web.UI.Page
                         Problem = reader["Problem"].ToString(),
                         Assigned_To = reader["Assigned_To"].ToString(),
                         Details = reader["Details"].ToString(),
+                        RegisBy = reader["RegisBy"].ToString(),
                         Charges = reader["Charges"].ToString(),
                         ToPay = reader["ToPay"].ToString(),
                         Dealer = reader["Dealer"].ToString(),
@@ -176,5 +178,65 @@ public partial class Work_Done : System.Web.UI.Page
     {
         Response.Redirect("WorkDoneFilter.aspx");
     }
+    [System.Web.Services.WebMethod]
+    public static string TransferComplaint(string callId)
+    {
+        if (string.IsNullOrWhiteSpace(callId))
+        {
+            return "Call Id cannot be empty.";
+        }
+
+        try
+        {
+            Class1 obj = new Class1();
+            string connection = obj.connectionString();
+
+            using (SqlConnection cn = new SqlConnection(connection))
+            {
+                cn.Open();
+
+                // First, check if Call_Id exists with Status = 'Done'
+                string checkQuery = "SELECT COUNT(*) FROM All_Complaints WHERE Call_Id = @id AND Status = 'Done'";
+                using (SqlCommand checkCmd = new SqlCommand(checkQuery, cn))
+                {
+                    checkCmd.Parameters.AddWithValue("@id", callId);
+                    int count = (int)checkCmd.ExecuteScalar();
+
+                    if (count == 0)
+                    {
+                        return "Call Id not found or not marked as 'Done'.";
+                    }
+                }
+
+                // Proceed to update
+                string updateQuery = @"
+                UPDATE All_Complaints 
+                SET 
+                    Status = 'New', 
+                    CC_Date = '',
+                    Assigned_To = '', 
+                    Details = '', 
+                    Charges = '', 
+                    ToPay = '', 
+                    ItemCode = '', 
+                    Def_Return = ''
+                WHERE Call_Id = @id";
+
+                using (SqlCommand updateCmd = new SqlCommand(updateQuery, cn))
+                {
+                    updateCmd.Parameters.AddWithValue("@id", callId);
+                    int rowsAffected = updateCmd.ExecuteNonQuery();
+
+                    return rowsAffected > 0 ? "success" : "Update failed.";
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            return "Error: " + ex.Message;
+        }
+    }
+
+
 }
 
